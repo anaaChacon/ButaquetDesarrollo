@@ -1,5 +1,6 @@
 package controlador;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -40,7 +41,7 @@ public class SecondActivity {
 		
 	}
 	
-	public static ArrayList<String> numSala(){
+	public static ArrayList<String> numSala(String pelicula){
 		//Instance of class SessionFactory
 		SessionFactory sesion = SessionFactoryUtil.getSessionFactory();
 		Session session = sesion.openSession();
@@ -48,7 +49,7 @@ public class SecondActivity {
 		
 		
 		//Hacer una consulta
-		Iterator<?> iter = session.createQuery("select p.salas from Proyeccion p, Peliculas pe where p.peliculas = pe.idPelicula and pe.nombrePelicula = 'Frozen' GROUP BY p.salas").iterate();
+		Iterator<?> iter = session.createQuery("select p.salas from Proyeccion p, Peliculas pe where p.peliculas = pe.idPelicula and pe.nombrePelicula = '"+pelicula+"' GROUP BY p.salas").iterate();
 		
 		ArrayList<String>listaSalas = new ArrayList<>();
 		
@@ -68,7 +69,7 @@ public class SecondActivity {
 	}
 	
 	//Create method for date system date
-	public static String dateToMySQLDate(Date fecha){
+	/*public static String dateToMySQLDate(Date fecha){
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(fecha);
 	}
@@ -87,8 +88,21 @@ public class SecondActivity {
 		
 		while(iter.hasNext()){
 			
-		
-			listaSalas.add(String.valueOf(iter.next()));
+			//creamos un objeto de tipo calendar
+			
+			Calendar date1 = Calendar.getInstance();
+			Date fecha = new Date();
+			
+			//A ese objeto le instanciamos la fecha de alquiler que introduce el usuario
+			date1.setTime(fecha);
+			
+			//Después le sumamos los dias de alquiler, es decir el tiempo que tiene para devolverlo
+			//date1.add(Calendar.DAY_OF_YEAR, + diasFinAlquiler);	
+						
+			SimpleDateFormat dateformatter = new SimpleDateFormat("E dd/MM/yyyy ");
+			
+			//Aquí mostraremos la fecha en la que tiene que devolverla		
+			listaSalas.add(String.valueOf(dateformatter.format(date1.getTime())));
 			
 		}
 		
@@ -99,5 +113,5 @@ public class SecondActivity {
 		
 		return listaSalas;
 		
-	}
+	}*/
 }

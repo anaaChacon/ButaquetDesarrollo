@@ -191,21 +191,21 @@ public class SeleccionPrincipal extends JFrame {
 		comboBox_1.setBounds(254, 81, 244, 36);
 		panel.add(comboBox_1);
 		
-		JComboBox<Integer> comboBox_2 = new JComboBox<Integer>();
+		JComboBox<String> comboBox_2 = new JComboBox<String>();
 		comboBox_2.setBackground(Color.WHITE);
 		comboBox_2.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		comboBox_2.setBounds(254, 131, 244, 36);
 		
-		ArrayList<Integer>listadoSalas = new ArrayList<>();
+		ArrayList<String>listadoSalas = new ArrayList<>();
 		listadoSalas.addAll(SecondActivity.numSala());
 		
 			StringTokenizer st2 = new StringTokenizer(listadoSalas.toString(), ",[]");
 
 			   while(st2.hasMoreTokens()) {
 
-			   int sala = Integer.parseInt(st2.nextToken());
-
-			   comboBox_2.addItem(sala);
+				   String sala = st2.nextToken();
+				   comboBox_2.addItem(sala);
+			   
 			   }
 		panel.add(comboBox_2);
 		

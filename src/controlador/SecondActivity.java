@@ -1,12 +1,14 @@
 package controlador;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import models.Salas;
 import models.SessionFactoryUtil;
 
 public class SecondActivity {
@@ -36,7 +38,7 @@ public class SecondActivity {
 		
 	}
 	
-	public static ArrayList<Integer> numSala(){
+	public static ArrayList<String> numSala(){
 		//Instance of class SessionFactory
 		SessionFactory sesion = SessionFactoryUtil.getSessionFactory();
 		Session session = sesion.openSession();
@@ -46,14 +48,14 @@ public class SecondActivity {
 		//Hacer una consulta
 		Iterator<?> iter = session.createQuery("select p.salas from Proyeccion p, Peliculas pe where p.peliculas = pe.idPelicula and pe.nombrePelicula = 'Frozen' GROUP BY p.salas").iterate();
 		
-		ArrayList<Integer>listaSalas = new ArrayList<>();
+		ArrayList<String>listaSalas = new ArrayList<>();
 		
 		while(iter.hasNext()){
+			Salas sala = (Salas) iter.next();
+				
+			listaSalas.add("Sala " + sala.getIdSala());
 			
-			listaSalas.add(Integer.parseInt((String) iter.next()));
 		}
-		
-		
 		
 		//Realize to transaction
 		session.getTransaction().commit();
@@ -61,5 +63,12 @@ public class SecondActivity {
 		session.close();
 				
 		return listaSalas;
+	}
+	
+	public static ArrayList<Date> fecha(){
+		
+		
+		return null;
+		
 	}
 }

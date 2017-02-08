@@ -185,10 +185,23 @@ public class SeleccionPrincipal extends JFrame {
 			   }		
 		panel.add(comboBox);
 		
-		JComboBox comboBox_1 = new JComboBox();
+		JComboBox<String> comboBox_1 = new JComboBox<String>();
 		comboBox_1.setBackground(Color.WHITE);
 		comboBox_1.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		comboBox_1.setBounds(254, 81, 244, 36);
+		ArrayList<String>listaFechas = new ArrayList<>();
+		listaFechas.addAll(SecondActivity.fecha());
+		
+		StringTokenizer st3 = new StringTokenizer(listaFechas.toString(), ",[]");
+
+		   while(st3.hasMoreTokens()) {
+
+			   String fechas = st3.nextToken();
+			   comboBox_1.addItem(fechas);
+		   
+		   }
+		
+		
 		panel.add(comboBox_1);
 		
 		JComboBox<String> comboBox_2 = new JComboBox<String>();

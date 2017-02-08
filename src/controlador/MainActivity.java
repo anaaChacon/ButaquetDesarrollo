@@ -15,7 +15,6 @@ import org.hibernate.SessionFactory;
 public class MainActivity {
 	
 	
-
 	public static boolean Logeo2() {
 		// TODO Auto-generated method stub
 		//Instance of class SessionFactory

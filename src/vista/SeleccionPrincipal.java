@@ -6,10 +6,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import controlador.SecondActivity;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Image;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -162,10 +167,22 @@ public class SeleccionPrincipal extends JFrame {
 		lblSeleccioneSala.setBounds(0, 131, 244, 39);
 		panel.add(lblSeleccioneSala);
 		
-		JComboBox comboBox = new JComboBox();
+		JComboBox<String> comboBox = new JComboBox<String>();
 		comboBox.setBackground(Color.WHITE);
 		comboBox.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		comboBox.setBounds(254, 31, 244, 36);
+		//comboBox.add(SecondActivity.nombrePelicula());
+		ArrayList<String>listado = new ArrayList<>();
+		listado.addAll(SecondActivity.nombrePelicula());
+		
+			StringTokenizer st = new StringTokenizer(listado.toString(), ",[]");
+
+			   while(st.hasMoreTokens()) {
+
+			   String pelicula = st.nextToken();
+
+			   comboBox.addItem(pelicula);
+			   }		
 		panel.add(comboBox);
 		
 		JComboBox comboBox_1 = new JComboBox();
@@ -174,10 +191,22 @@ public class SeleccionPrincipal extends JFrame {
 		comboBox_1.setBounds(254, 81, 244, 36);
 		panel.add(comboBox_1);
 		
-		JComboBox comboBox_2 = new JComboBox();
+		JComboBox<Integer> comboBox_2 = new JComboBox<Integer>();
 		comboBox_2.setBackground(Color.WHITE);
 		comboBox_2.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		comboBox_2.setBounds(254, 131, 244, 36);
+		
+		ArrayList<Integer>listadoSalas = new ArrayList<>();
+		listadoSalas.addAll(SecondActivity.numSala());
+		
+			StringTokenizer st2 = new StringTokenizer(listadoSalas.toString(), ",[]");
+
+			   while(st2.hasMoreTokens()) {
+
+			   int sala = Integer.parseInt(st2.nextToken());
+
+			   comboBox_2.addItem(sala);
+			   }
 		panel.add(comboBox_2);
 		
 		JLabel lblNDeButacas = new JLabel("N\u00BA de Butacas Selec.");

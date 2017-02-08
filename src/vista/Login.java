@@ -6,12 +6,16 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import controlador.MainActivity;
+
 import java.awt.SystemColor;
 import java.awt.FlowLayout;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import java.awt.Font;
@@ -22,11 +26,13 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Login extends JFrame {
+public class Login extends JFrame implements  ActionListener {
 
 	private JPanel contentPane;
-	private JTextField usuarioInt;
-	private JPasswordField passwordField;
+	public static JTextField usuarioInt;
+	public static JPasswordField passwordField;
+	private String[] args;
+	
 
 	/**
 	 * Launch the application.
@@ -90,10 +96,15 @@ public class Login extends JFrame {
 		usuarioInt.setColumns(10);
 		
 		JButton btnEntrar = new JButton("ENTRAR");
+		btnEntrar.addActionListener(this);
+		/*
 		btnEntrar.addActionListener(new ActionListener() {
+			private String[] args;
+
 			public void actionPerformed(ActionEvent e) {
+				SeleccionPrincipal.main(args);
 			}
-		});
+		});*/
 		btnEntrar.setForeground(Color.WHITE);
 		btnEntrar.setBackground(new Color(0, 102, 255));
 		btnEntrar.setFont(new Font("Bebas Neue", Font.PLAIN, 40));
@@ -104,5 +115,29 @@ public class Login extends JFrame {
 		passwordField.setFont(new Font("Bebas Neue", Font.PLAIN, 25));
 		passwordField.setBounds(607, 358, 200, 41);
 		contentPane.add(passwordField);
+	}
+
+	@SuppressWarnings("static-access")
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		MainActivity m = new MainActivity();
+		
+		if(m.Logeo2() == true){
+			
+			SeleccionPrincipal f = new SeleccionPrincipal();
+			
+			f.setVisible(true);
+			
+			setVisible(false);
+			
+			JOptionPane.showMessageDialog(null, "Bienvenido/a usuario: " + Login.usuarioInt.getText().toString(), "Home", JOptionPane.INFORMATION_MESSAGE);
+		}else{
+			
+			setVisible(true);
+		}
+		
+		//System.exit(0);
+		//SeleccionPrincipal.main(args);
 	}
 }

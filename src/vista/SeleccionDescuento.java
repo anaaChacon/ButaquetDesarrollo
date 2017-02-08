@@ -18,6 +18,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ImageIcon;
+import java.awt.SystemColor;
+import javax.swing.UIManager;
 
 public class SeleccionDescuento extends JFrame {
 
@@ -47,12 +49,13 @@ public class SeleccionDescuento extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1280, 720);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
 		JPanel panel = new JPanel();
-		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		panel.setBorder(new EmptyBorder(0, 0, 0, 0));
 		panel.setBackground(Color.GRAY);
 		contentPane.add(panel, BorderLayout.NORTH);
 		
@@ -113,7 +116,7 @@ public class SeleccionDescuento extends JFrame {
 		textField.setEditable(false);
 		textField.setColumns(10);
 		textField.setBackground(Color.WHITE);
-		textField.setBounds(254, 30, 51, 36);
+		textField.setBounds(254, 30, 48, 36);
 		panel_1.add(textField);
 		
 		JButton button = new JButton("Siguiente Paso\r\n");
@@ -135,7 +138,7 @@ public class SeleccionDescuento extends JFrame {
 		panel_2.setBackground(Color.DARK_GRAY);
 		
 		JLabel label_8 = new JLabel("");
-		label_8.setIcon(new ImageIcon("C:\\Users\\Jose\\Documents\\ButaquetDesarrollo\\images\\ticketpeque.png"));
+		label_8.setIcon(new ImageIcon("C:\\Users\\dam2\\workspace\\ButacaHibernate\\images\\ticketpeque.png"));
 		
 		JLabel label_9 = new JLabel("Arag\u00F3 Cinema");
 		label_9.setForeground(Color.WHITE);
@@ -238,29 +241,30 @@ public class SeleccionDescuento extends JFrame {
 		panel_1.add(lblIva);
 		
 		JLabel label_1 = new JLabel("780\u20AC\r\n");
+		label_1.setBackground(new Color(211, 211, 211));
 		label_1.setHorizontalAlignment(SwingConstants.LEFT);
-		label_1.setForeground(Color.LIGHT_GRAY);
+		label_1.setForeground(SystemColor.controlHighlight);
 		label_1.setFont(new Font("Bebas Neue", Font.PLAIN, 30));
 		label_1.setBounds(927, 75, 244, 39);
 		panel_1.add(label_1);
 		
 		JLabel label_2 = new JLabel("70\u20AC\r\n");
 		label_2.setHorizontalAlignment(SwingConstants.LEFT);
-		label_2.setForeground(Color.LIGHT_GRAY);
+		label_2.setForeground(SystemColor.controlHighlight);
 		label_2.setFont(new Font("Bebas Neue", Font.PLAIN, 30));
 		label_2.setBounds(927, 112, 244, 39);
 		panel_1.add(label_2);
 		
 		JLabel label_4 = new JLabel("710\u20AC");
 		label_4.setHorizontalAlignment(SwingConstants.LEFT);
-		label_4.setForeground(Color.LIGHT_GRAY);
+		label_4.setForeground(SystemColor.controlHighlight);
 		label_4.setFont(new Font("Bebas Neue", Font.PLAIN, 30));
 		label_4.setBounds(927, 149, 244, 39);
 		panel_1.add(label_4);
 		
 		JLabel label_5 = new JLabel("149,10\u20AC");
 		label_5.setHorizontalAlignment(SwingConstants.LEFT);
-		label_5.setForeground(Color.LIGHT_GRAY);
+		label_5.setForeground(SystemColor.controlHighlight);
 		label_5.setFont(new Font("Bebas Neue", Font.PLAIN, 30));
 		label_5.setBounds(927, 215, 244, 39);
 		panel_1.add(label_5);
@@ -273,8 +277,9 @@ public class SeleccionDescuento extends JFrame {
 		panel_1.add(lblTotalAPagar);
 		
 		JLabel label = new JLabel("859,10\u20AC");
+		label.setBackground(UIManager.getColor("Button.light"));
 		label.setHorizontalAlignment(SwingConstants.LEFT);
-		label.setForeground(Color.LIGHT_GRAY);
+		label.setForeground(SystemColor.controlHighlight);
 		label.setFont(new Font("Bebas Neue", Font.PLAIN, 48));
 		label.setBounds(927, 286, 244, 39);
 		panel_1.add(label);

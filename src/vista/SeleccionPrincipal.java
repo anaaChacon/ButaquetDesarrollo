@@ -8,8 +8,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Image;
+import java.net.URL;
 import java.awt.Color;
 import java.awt.Dimension;
+
 
 import javax.swing.ImageIcon;
 import javax.swing.BoxLayout;
@@ -63,8 +66,19 @@ public class SeleccionPrincipal extends JFrame {
 		lblAragCinema.setForeground(Color.WHITE);
 		lblAragCinema.setFont(new Font("Bebas Neue", Font.PLAIN, 63));
 		
+		//JLabel lblNewLabel = new JLabel();
+		
+		
+		//URL path = getClass().getResource("ticketpeque.png");
+		
+		//Image img = new ImageIcon(path).getImage();
+		
+		//lblNewLabel.setIcon(new ImageIcon(img)); //ERA ESTO!!
+		
+		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\dam2\\workspace\\ButacaHibernate\\images\\ticketpeque - copia.png"));
+		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\dam2\\workspace\\ButacaHibernate\\images\\ticketpeque.png"));
+		
 		
 		JLabel lblUsuario = new JLabel("USUARIO: 589621");
 		lblUsuario.setForeground(Color.LIGHT_GRAY);
@@ -197,19 +211,19 @@ public class SeleccionPrincipal extends JFrame {
 		lblSeleccioneUbicacin.setBounds(649, -13, 548, 117);
 		panel.add(lblSeleccioneUbicacin);
 		
-		JLabel lblNewLabel_1 = new JLabel("ASIENTO VERDE: LIBRE");
+		JLabel lblNewLabel_1 = new JLabel("VERDE: LIBRE");
 		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setFont(new Font("Bebas Neue", Font.PLAIN, 19));
 		lblNewLabel_1.setBounds(719, 375, 267, 39);
 		panel.add(lblNewLabel_1);
 		
-		JLabel lblAsientoRojoSeleccionado = new JLabel("ASIENTO ROJO: SELECCIONADO");
+		JLabel lblAsientoRojoSeleccionado = new JLabel("SELECCIONADO: AMARILLO");
 		lblAsientoRojoSeleccionado.setForeground(Color.WHITE);
 		lblAsientoRojoSeleccionado.setFont(new Font("Bebas Neue", Font.PLAIN, 19));
 		lblAsientoRojoSeleccionado.setBounds(719, 405, 267, 39);
 		panel.add(lblAsientoRojoSeleccionado);
 		
-		JLabel lblAsientoConPersona = new JLabel("ASIENTO CON PERSONA: OCUPADO\r\n");
+		JLabel lblAsientoConPersona = new JLabel("ROJO: ASIENTO NO DISPONIBLE");
 		lblAsientoConPersona.setForeground(Color.WHITE);
 		lblAsientoConPersona.setFont(new Font("Bebas Neue", Font.PLAIN, 19));
 		lblAsientoConPersona.setBounds(719, 436, 267, 39);

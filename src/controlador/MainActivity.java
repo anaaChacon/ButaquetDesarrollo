@@ -36,7 +36,7 @@ public class MainActivity {
 
 			
 			if(iter.hasNext()){
-				System.out.println("OK, si existe");
+				//System.out.println("OK, si existe");
 				
 				correcto = true;
 				

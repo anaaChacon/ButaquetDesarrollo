@@ -181,17 +181,14 @@ public class SeleccionPrincipal extends JFrame implements ItemListener {
 		//comboBox.add(SecondActivity.nombrePelicula());
 		ArrayList<String>listado = new ArrayList<>();
 		listado.addAll(SecondActivity.nombrePelicula());
-		System.out.print(listado);
+		//System.out.print(listado);
 		
 		
 		for(int i = 0; i < listado.size(); i++){
 			comboBox.addItem(listado.get(i));
 		}
-			   
 		
-		
-		comboBox.addItemListener(this);
-			   
+		comboBox.addItemListener(this);   
 		panel.add(comboBox);
 		
 		comboBox_1 = new JComboBox<String>();
@@ -199,15 +196,17 @@ public class SeleccionPrincipal extends JFrame implements ItemListener {
 		comboBox_1.setBackground(Color.WHITE);
 		comboBox_1.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		comboBox_1.setBounds(254, 81, 244, 36);
+		
+		comboBox_1.addItemListener(this);
 		panel.add(comboBox_1);
 		
-		 comboBox_2 = new JComboBox<String>();
+		comboBox_2 = new JComboBox<String>();
 		comboBox_2.setEnabled(false);
 		comboBox_2.setBackground(Color.WHITE);
 		comboBox_2.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		comboBox_2.setBounds(254, 131, 244, 36);
 		
-		
+		comboBox_2.addItemListener(this);
 		panel.add(comboBox_2);
 		
 		JLabel lblNDeButacas = new JLabel("N\u00BA de Butacas Selec.");
@@ -265,20 +264,64 @@ public class SeleccionPrincipal extends JFrame implements ItemListener {
 	public void itemStateChanged(ItemEvent e) {
 		// TODO Auto-generated method stub
 		 if (e.getStateChange() == ItemEvent.SELECTED) {
-			  
+			 
+			 if(e.getSource() == comboBox){
+				 
+				 ArrayList<String>listadoSesion = new ArrayList<>();
+				 
+				 String nombrePelicula = (String) comboBox.getSelectedItem();
+				 
+				 listadoSesion.addAll(SecondActivity.fecha(nombrePelicula));
+					//System.out.print(listado);
+					
+				 comboBox_1.removeAllItems();
+				 
+					for(int i = 0; i < listadoSesion.size(); i++){
+						comboBox_1.addItem(listadoSesion.get(i));
+					}
+					
+					int itemCount = comboBox_1.getItemCount();
+
+					   if(itemCount > 1){
+						   comboBox_1.setEnabled(true);
+						   comboBox_2.setEnabled(false);
+					   }
+					   else if(itemCount == 0){
+						   comboBox_2.removeAllItems();
+						   comboBox_1.setEnabled(false);
+						   comboBox_2.setEnabled(false);
+					   }
+					   else{
+						   comboBox_1.setEnabled(false);
+						   //comboBox_2.setEnabled(true);
+						   /*Añadir al combobox_2 los items*/
+						   
+					   }
+					  // comboBox_2.removeAllItems();
+					   
+			 } 
+			 
+			 if(e.getSource() == comboBox_1){
 			  ArrayList<String>listadoSalas = new ArrayList<>();
 			 
 			  String nombrePelicula = (String) comboBox.getSelectedItem();
 			  
-				listadoSalas.addAll(SecondActivity.numSala(nombrePelicula));
+			  String sesion = (String) comboBox_1.getSelectedItem();
+			  StringTokenizer tk = new StringTokenizer(sesion, " ");
+			  String fecha = null, hora = null;
+			  while(tk.hasMoreTokens()){
+				  fecha = tk.nextToken();
+				  hora = tk.nextToken();
+			  }
+			  
+				listadoSalas.addAll(SecondActivity.numSala(nombrePelicula, fecha, hora));
 				
 				 comboBox_2.removeAllItems();
 				 
 					for(int i = 0; i < listadoSalas.size(); i++){
 						  
 						   comboBox_2.addItem(listadoSalas.get(i));
-						   
-						  
+  
 					}
 					
 					 int itemCount = comboBox_2.getItemCount();
@@ -288,14 +331,12 @@ public class SeleccionPrincipal extends JFrame implements ItemListener {
 					   }else{
 						   comboBox_2.setEnabled(false);
 					   }
+			 }
+			 
+			 
+			 
 					
-					 
-					   
-					   
-        	
-        	 }else{
-        		 
-        	 }
          }
+	}
 	
 }

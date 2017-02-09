@@ -41,7 +41,7 @@ public class SeleccionPrincipal extends JFrame implements ItemListener {
 
 	private JPanel contentPane;
 	private JTextField textField;
-	private JComboBox<String> comboBox_2;
+	private JComboBox<String> comboBox_2, comboBox, comboBox_1;
 
 	/**
 	 * Launch the application.
@@ -174,30 +174,28 @@ public class SeleccionPrincipal extends JFrame implements ItemListener {
 		lblSeleccioneSala.setBounds(0, 131, 244, 39);
 		panel.add(lblSeleccioneSala);
 		
-		JComboBox<String> comboBox = new JComboBox<String>();
+		comboBox = new JComboBox<String>();
 		comboBox.setBackground(Color.WHITE);
 		comboBox.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		comboBox.setBounds(254, 31, 244, 36);
 		//comboBox.add(SecondActivity.nombrePelicula());
 		ArrayList<String>listado = new ArrayList<>();
 		listado.addAll(SecondActivity.nombrePelicula());
+		System.out.print(listado);
 		
-			StringTokenizer st = new StringTokenizer(listado.toString(), ",[]");
-
-			   while(st.hasMoreTokens()) {
-
-			   String pelicula = st.nextToken();
-
-			   comboBox.addItem(pelicula);
-			   }
+		
+		for(int i = 0; i < listado.size(); i++){
+			comboBox.addItem(listado.get(i));
+		}
 			   
+		
+		
 		comboBox.addItemListener(this);
-		
-			   
 			   
 		panel.add(comboBox);
 		
-		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1 = new JComboBox<String>();
+		comboBox_1.setEnabled(false);
 		comboBox_1.setBackground(Color.WHITE);
 		comboBox_1.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		comboBox_1.setBounds(254, 81, 244, 36);
@@ -267,19 +265,33 @@ public class SeleccionPrincipal extends JFrame implements ItemListener {
 	public void itemStateChanged(ItemEvent e) {
 		// TODO Auto-generated method stub
 		 if (e.getStateChange() == ItemEvent.SELECTED) {
-			  comboBox_2.setEnabled(true);
+			  
 			  ArrayList<String>listadoSalas = new ArrayList<>();
+			 
+			  String nombrePelicula = (String) comboBox.getSelectedItem();
+			  
+				listadoSalas.addAll(SecondActivity.numSala(nombrePelicula));
 				
-				listadoSalas.addAll(SecondActivity.numSala(comboBox_2.getSelectedItem().toString()));
-				
-					StringTokenizer st2 = new StringTokenizer(listadoSalas.toString(), ",[]");
+				 comboBox_2.removeAllItems();
+				 
+					for(int i = 0; i < listadoSalas.size(); i++){
+						  
+						   comboBox_2.addItem(listadoSalas.get(i));
+						   
+						  
+					}
+					
+					 int itemCount = comboBox_2.getItemCount();
 
-					   while(st2.hasMoreTokens()) {
-
-						   String sala = st2.nextToken();
-						   comboBox_2.addItem(sala);
-					   
+					   if(itemCount > 1){
+						   comboBox_2.setEnabled(true);
+					   }else{
+						   comboBox_2.setEnabled(false);
 					   }
+					
+					 
+					   
+					   
         	
         	 }else{
         		 

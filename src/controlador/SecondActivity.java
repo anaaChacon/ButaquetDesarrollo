@@ -69,7 +69,7 @@ public class SecondActivity {
 	}
 	
 	//Create method for date system date
-	/*public static String dateToMySQLDate(Date fecha){
+	public static String dateToMySQLDate(Date fecha){
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(fecha);
 	}
@@ -86,8 +86,15 @@ public class SecondActivity {
 		
 		ArrayList<String>listaSalas = new ArrayList<>();
 		
+		//Proyeccion p= new Proyeccion();
+		
+		
 		while(iter.hasNext()){
 			
+			//Creamos un objeto de tipo Proyeccion
+			Proyeccion p = (Proyeccion)iter.next();
+			p.getFecha();
+			p.getHora();
 			//creamos un objeto de tipo calendar
 			
 			Calendar date1 = Calendar.getInstance();
@@ -113,5 +120,5 @@ public class SecondActivity {
 		
 		return listaSalas;
 		
-	}*/
+	}
 }

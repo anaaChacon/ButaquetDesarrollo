@@ -131,7 +131,7 @@ public class Login extends JFrame implements  ActionListener {
 			
 			setVisible(false);
 			
-			JOptionPane.showMessageDialog(null, "Bienvenido/a usuario: " + Login.usuarioInt.getText().toString(), "Home", JOptionPane.INFORMATION_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "Bienvenido/a usuario: " + Login.usuarioInt.getText().toString(), "Home", JOptionPane.INFORMATION_MESSAGE);
 		}else{
 			
 			setVisible(true);

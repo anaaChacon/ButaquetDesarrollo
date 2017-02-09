@@ -119,7 +119,7 @@ public class Login extends JFrame implements  ActionListener {
 
 	@SuppressWarnings("static-access")
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) { 
 		// TODO Auto-generated method stub
 		MainActivity m = new MainActivity();
 		

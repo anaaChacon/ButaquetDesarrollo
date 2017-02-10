@@ -121,7 +121,7 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 		panel_1.add(lblGratuito);
 
 		btnImprimir = new JButton("Imprimir");
-		btnImprimir.setIcon(new ImageIcon("C:\\Users\\dam2\\workspace\\ProyectoButaquet\\images\\imp_blac.png"));
+		btnImprimir.setIcon(new ImageIcon("./src/images/imp_blac.png"));
 		btnImprimir.setEnabled(false);
 		btnImprimir.setForeground(Color.WHITE);
 		btnImprimir.setFont(new Font("Bebas Neue", Font.PLAIN, 46));

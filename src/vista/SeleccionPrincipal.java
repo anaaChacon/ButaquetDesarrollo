@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
@@ -53,6 +54,11 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 	private JTextField textField;
 	private JComboBox<String> comboBox_2, comboBox, comboBox_1;
 	private JButton btnSiguientePaso;
+	private ArrayList<Integer>filasColumnas;
+	private int filas, columnas;
+	private JPanel pintarButacas;
+	private JPanel panel;
+	private JButton [][] asientos;
 	Border emptyBorder = BorderFactory.createEmptyBorder();
 
 
@@ -156,7 +162,7 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 		);
 		datosCine.setLayout(gl_datosCine);
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setBackground(Color.GRAY);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -286,11 +292,14 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 		panel.add(lblAsientoConPersona);
 		
 		/*JLabel para las butacas*/
-		JLabel pintarButacas = new JLabel("");
+		pintarButacas = new JPanel();
+		pintarButacas.setBackground(Color.GRAY);
 		pintarButacas.setBounds(646, 111, 532, 253);
-		panel.add(pintarButacas);
-		contentPane.setLayout(gl_contentPane);
 		
+		
+		
+		
+		contentPane.setLayout(gl_contentPane);
 		setResizable(false);
 	}
 	
@@ -374,9 +383,65 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 
 					   if(itemCount > 1){
 						   comboBox_2.setEnabled(true);
+						   
+						 /*  String numeroSala = null;
+						   
+						   String salaSeleccionada = comboBox_2.getSelectedItem().toString();
+						   
+						   StringTokenizer tk2 = new StringTokenizer(salaSeleccionada, " ");
+						   while(tk2.hasMoreTokens()){
+							   String cadena = tk2.nextToken();
+							   numeroSala = tk2.nextToken();
+						   }
+						   
+						   System.out.print(numeroSala);*/
+						  
+						   /*Usamos el método de filas y columnas
+						   filasColumnas.addAll(SecondActivity.dimensionSala(Integer.parseInt(numeroSala)));//null
+						   
+						   filas = filasColumnas.get(0);
+						   columnas = filasColumnas.get(1);*/
+						   						   
+						   
 					   }else{
 						   comboBox_2.setEnabled(false);
+						   /*Usamos el método de filas y columnas
+						   filasColumnas.addAll(SecondActivity.dimensionSala(Integer.parseInt(comboBox_2.getItemAt(1).toString())));
+						   
+						   filas = filasColumnas.get(0);
+						   columnas = filasColumnas.get(1);*/
+						   
+						   					   
+						  
 					   }
+					   
+						comboBox_2.getItemAt(1);
+			 }
+			 
+			 if(e.getSource() == comboBox_2){
+				
+				 
+				 asientos = new JButton[2][2];
+					
+					for(int i = 0; i < asientos.length; i++){
+						for(int j = 0; j < asientos[i].length; j++){
+							JButton butaca = new JButton();
+							ImageIcon icono = new ImageIcon("./src/images/libre.png");
+							Image img = icono.getImage();
+							Image otraimg = img.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+							ImageIcon icon = new ImageIcon(otraimg);
+							butaca.setIcon(icon);
+							butaca.setBorderPainted(false);
+							butaca.setContentAreaFilled(false);
+							butaca.setFocusable(false);
+							butaca.setRolloverEnabled(true);
+							
+							asientos[i][j] = butaca;
+							pintarButacas.add(asientos[i][j]);
+						}
+					}
+					//JScrollPane scroll2 = new JScrollPane(pintarButacas);
+					panel.add(pintarButacas);
 			 }
 			 
 			 

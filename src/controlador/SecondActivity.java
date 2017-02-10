@@ -67,22 +67,92 @@ public class SecondActivity {
 		session.beginTransaction();
 		
 		//Hacer una consulta
-		Iterator<?> iter = session.createQuery("select p.salas from Proyeccion p, Peliculas pe where p.peliculas = pe.idPelicula"
+		Iterator<?> iter = session.createQuery("select s.numSala from Salas s, Proyeccion p, Peliculas pe where p.peliculas = pe.idPelicula"
 				+ " and pe.nombrePelicula = '"+pelicula+"'"
+				+ " and s.idSala = p.salas"
 						+ " and p.fecha = '"+fecha+"'"
 								+ " and p.hora = '"+hora+"' GROUP BY p.salas").iterate();
 		
 		ArrayList<String>listaSalas = new ArrayList<>();
 		
 		while(iter.hasNext()){
-			Salas sala = (Salas) iter.next();	
-			listaSalas.add("Sala " + sala.getIdSala());
+			//Salas sala = (Salas) iter.next();	
+			listaSalas.add("Sala " + iter.next() );//sala.getIdSala()
 		}
 		//Realize to transaction
 		session.getTransaction().commit();
 		//Close the sesion
 		session.close();		
 		return listaSalas;
+	}
+	
+	public static int filaButacas(int numSala){
+		//Instance of class SessionFactory
+				SessionFactory sesion = SessionFactoryUtil.getSessionFactory();
+				Session session = sesion.openSession();
+				session.beginTransaction();
+				
+				int iter = (int) session.createQuery("select s.filas from Salas s, Proyeccion p where s.idSala = p.salas and p.salas = (select idSala from Salas where numSala = '"+numSala+"') group by p.salas").uniqueResult();
+				
+				//Realize to transaction
+				session.getTransaction().commit();
+				//Close the sesion
+				session.close();
+		return iter;
+	}
+	
+	public static ArrayList<Integer> dimensionSala(int numSala){
+		//Instance of class SessionFactory
+		SessionFactory sesion = SessionFactoryUtil.getSessionFactory();
+		Session session = sesion.openSession();
+		session.beginTransaction();
+		
+		int filas = 0, columnas = 0;
+		
+		/*Iterator<?>iter = session.createQuery("select s.filas, s.columnas"
+				+ " from Salas s, Proyeccion p"
+				+ " where s.idSala = p.salas"
+				+ " and p.salas = (select idSala"
+				+ " from Salas where numSala = '"+numSala+"')"
+				+ " group by p.salas").iterate();*/
+		
+		Iterator<?> iter = session.createQuery("select s.filas from Salas s, Proyeccion p where s.idSala = p.salas and p.salas = (select idSala from Salas where numSala = '"+numSala+"') group by p.salas").iterate();
+		Iterator<?> iter2 = session.createQuery("select s.columnas from Salas s, Proyeccion p where s.idSala = p.salas and p.salas = (select idSala from Salas where numSala = '"+numSala+"') group by p.salas").iterate();
+		
+		ArrayList<Integer>filas1 = new ArrayList<>();
+		while(iter.hasNext()){
+			filas1.add(Integer.parseInt(iter.next().toString()));
+		}
+		
+		ArrayList<Integer>columnas1= new ArrayList<>();
+		//Proyeccion p= new Proyeccion();
+		while(iter2.hasNext()){
+
+			//Proyeccion proyec = (Proyeccion) iter2.next();
+			
+			columnas1.add(Integer.parseInt(iter2.next().toString()));
+		}
+		/*while(iter.hasNext()){
+
+			Salas sala = (Salas) iter.next();
+			filas = sala.getFilas();
+			columnas = sala.getColumnas();
+		}*/
+		
+		/*ArrayList<Integer>filasColumnas = new ArrayList<>();
+		filasColumnas.add(filas);
+		filasColumnas.add(columnas);*/
+			ArrayList<Integer>arrayDimensional = new ArrayList<>();
+			arrayDimensional.add(filas1.get(0));
+			arrayDimensional.add(columnas1.get(0));
+			
+	
+		//Realize to transaction
+		session.getTransaction().commit();
+		//Close the sesion
+		session.close();
+		
+		return arrayDimensional;
 	}
 	
 	//Create method for date system date

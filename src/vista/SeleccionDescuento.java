@@ -19,12 +19,16 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ImageIcon;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.UIManager;
 
-public class SeleccionDescuento extends JFrame {
+public class SeleccionDescuento extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
 	private JTextField textField;
+	private JButton button, btnPasoAtrs;
 
 	/**
 	 * Launch the application.
@@ -119,11 +123,12 @@ public class SeleccionDescuento extends JFrame {
 		textField.setBounds(254, 30, 48, 36);
 		panel_1.add(textField);
 		
-		JButton button = new JButton("Siguiente Paso\r\n");
+		button = new JButton("Siguiente Paso\r\n");
 		button.setForeground(Color.WHITE);
 		button.setFont(new Font("Bebas Neue", Font.PLAIN, 46));
 		button.setBackground(new Color(0, 102, 255));
 		button.setBounds(548, 382, 284, 56);
+		button.addActionListener(this);
 		panel_1.add(button);
 		
 		JLabel lblSubtotal = new JLabel("SUBTOTAL");
@@ -205,11 +210,12 @@ public class SeleccionDescuento extends JFrame {
 					.addContainerGap())
 		);
 		
-		JButton btnPasoAtrs = new JButton("Paso Anterior");
+		btnPasoAtrs = new JButton("Paso Anterior");
 		btnPasoAtrs.setForeground(Color.WHITE);
 		btnPasoAtrs.setFont(new Font("Bebas Neue", Font.PLAIN, 46));
 		btnPasoAtrs.setBackground(new Color(0, 102, 255));
 		btnPasoAtrs.setBounds(224, 382, 284, 56);
+		btnPasoAtrs.addActionListener(this);
 		panel_1.add(btnPasoAtrs);
 		
 		JLabel lblPrecioEntradas = new JLabel("PRECIO ENTRADAS");
@@ -284,5 +290,21 @@ public class SeleccionDescuento extends JFrame {
 		label.setBounds(927, 286, 244, 39);
 		panel_1.add(label);
 		panel.setLayout(gl_panel);
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == button){
+			SeleccionPago f = new SeleccionPago();
+			
+			f.setVisible(true);	
+			setVisible(false);
+		}
+		
+		if(e.getSource() == btnPasoAtrs){
+			SeleccionPrincipal f = new SeleccionPrincipal();
+			f.setVisible(true);
+			setVisible(false);
+		}
 	}
 }

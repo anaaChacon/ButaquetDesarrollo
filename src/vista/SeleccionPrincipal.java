@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import controlador.MainActivity;
@@ -29,6 +30,7 @@ import java.awt.Dimension;
 
 
 import javax.swing.ImageIcon;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import java.awt.CardLayout;
 import java.awt.FlowLayout;
@@ -46,6 +48,8 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 	private JTextField textField;
 	private JComboBox<String> comboBox_2, comboBox, comboBox_1;
 	private JButton btnSiguientePaso;
+	Border emptyBorder = BorderFactory.createEmptyBorder();
+
 
 	/**
 	 * Launch the application.
@@ -78,9 +82,13 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 		datosCine.setBackground(Color.DARK_GRAY);
 		datosCine.setPreferredSize(new Dimension(1280,140));
 		
-		JLabel lblAragCinema = new JLabel("Arag\u00F3 Cinema");
+		JLabel lblAragCinema = new JLabel(SecondActivity.nombreCine(Integer.parseInt(Login.usuarioInt.getText().toString())));
 		lblAragCinema.setForeground(Color.WHITE);
 		lblAragCinema.setFont(new Font("Bebas Neue", Font.PLAIN, 63));
+		
+		/*JLabel lblAragCinema = new JLabel("Arag\u00F3 Cinema");
+		lblAragCinema.setForeground(Color.WHITE);
+		lblAragCinema.setFont(new Font("Bebas Neue", Font.PLAIN, 63));*/
 		
 		//JLabel lblNewLabel = new JLabel();
 		
@@ -236,6 +244,7 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 		btnSiguientePaso.setBackground(new Color(0, 102, 255));
 		btnSiguientePaso.setBounds(173, 382, 284, 56);
 		btnSiguientePaso.addActionListener(this);
+		btnSiguientePaso.setBorder(emptyBorder);
 		panel.add(btnSiguientePaso);
 		
 		JLabel lblSeleccioneUbicacin = new JLabel("SELECCIONE UBICACI\u00D3N");
@@ -263,6 +272,8 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 		lblAsientoConPersona.setBounds(719, 436, 267, 39);
 		panel.add(lblAsientoConPersona);
 		contentPane.setLayout(gl_contentPane);
+		
+		setResizable(false);
 	}
 	
 	@Override

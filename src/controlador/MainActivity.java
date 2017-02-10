@@ -45,6 +45,12 @@ public class MainActivity {
 				correcto = false;
 			}
 			
+			if(correcto=true){
+				int userID;
+				userID=Integer.parseInt(Login.usuarioInt.getText().toString());
+				
+			}
+			
 			//Realize to transaction
 			session.getTransaction().commit();
 			//Close the sesion

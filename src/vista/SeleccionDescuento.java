@@ -5,7 +5,11 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
+import controlador.SecondActivity;
+
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -14,6 +18,8 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Dimension;
+
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -29,6 +35,8 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 	private JPanel contentPane;
 	private JTextField textField;
 	private JButton button, btnPasoAtrs;
+	Border emptyBorder = BorderFactory.createEmptyBorder();
+
 
 	/**
 	 * Launch the application.
@@ -129,6 +137,7 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 		button.setBackground(new Color(0, 102, 255));
 		button.setBounds(548, 382, 284, 56);
 		button.addActionListener(this);
+		button.setBorder(emptyBorder);
 		panel_1.add(button);
 		
 		JLabel lblSubtotal = new JLabel("SUBTOTAL");
@@ -145,9 +154,13 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 		JLabel label_8 = new JLabel("");
 		label_8.setIcon(new ImageIcon("C:\\Users\\dam2\\workspace\\ButacaHibernate\\images\\ticketpeque.png"));
 		
-		JLabel label_9 = new JLabel("Arag\u00F3 Cinema");
+		JLabel label_9 = new JLabel(SecondActivity.nombreCine(Integer.parseInt(Login.usuarioInt.getText().toString())));
 		label_9.setForeground(Color.WHITE);
 		label_9.setFont(new Font("Bebas Neue", Font.PLAIN, 63));
+		
+		/*JLabel label_9 = new JLabel("Arag\u00F3 Cinema");
+		label_9.setForeground(Color.WHITE);
+		label_9.setFont(new Font("Bebas Neue", Font.PLAIN, 63));*/
 		
 		JLabel label_10 = new JLabel("LUNES 16/01/2017 15:30");
 		label_10.setForeground(Color.LIGHT_GRAY);
@@ -216,6 +229,7 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 		btnPasoAtrs.setBackground(new Color(0, 102, 255));
 		btnPasoAtrs.setBounds(224, 382, 284, 56);
 		btnPasoAtrs.addActionListener(this);
+		btnPasoAtrs.setBorder(emptyBorder);
 		panel_1.add(btnPasoAtrs);
 		
 		JLabel lblPrecioEntradas = new JLabel("PRECIO ENTRADAS");
@@ -290,6 +304,8 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 		label.setBounds(927, 286, 244, 39);
 		panel_1.add(label);
 		panel.setLayout(gl_panel);
+		
+		setResizable(false);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {

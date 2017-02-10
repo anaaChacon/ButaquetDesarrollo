@@ -12,6 +12,28 @@ import models.Salas;
 import models.SessionFactoryUtil;
 
 public class SecondActivity {
+	
+	public static String nombreCine(int userId){
+		//Instance of class SessionFactory
+		SessionFactory sesion = SessionFactoryUtil.getSessionFactory();
+		Session session = sesion.openSession();
+		session.beginTransaction();
+		
+		//Hacer una consulta
+		Iterator<?> iter = session.createQuery("select c.nombre from Cines c, Empleados e WHERE e.cines = c.idCine and e.accesoUsuario = '"+userId+"'").iterate();
+		
+		String nombreCine;
+		
+		nombreCine=(String) iter.next();
+		
+		//Realize to transaction
+		session.getTransaction().commit();
+		//Close the sesion
+		session.close();
+		
+		return nombreCine;
+		
+	}
 
 	public static ArrayList<String> nombrePelicula(){
 		//Instance of class SessionFactory

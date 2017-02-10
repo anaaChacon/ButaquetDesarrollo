@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import controlador.MainActivity;
@@ -16,6 +17,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import java.awt.Font;
@@ -32,6 +34,8 @@ public class Login extends JFrame implements  ActionListener {
 	public static JTextField usuarioInt;
 	public static JPasswordField passwordField;
 	private String[] args;
+	Border emptyBorder = BorderFactory.createEmptyBorder();
+
 	
 
 	/**
@@ -96,6 +100,9 @@ public class Login extends JFrame implements  ActionListener {
 		usuarioInt.setColumns(10);
 		
 		JButton btnEntrar = new JButton("ENTRAR");
+		btnEntrar.setBorder(emptyBorder);
+		//Este metodo sirve para quitarle el cuadrado
+		btnEntrar.setFocusable(false);
 		btnEntrar.addActionListener(this);
 		/*
 		btnEntrar.addActionListener(new ActionListener() {
@@ -113,8 +120,10 @@ public class Login extends JFrame implements  ActionListener {
 		
 		passwordField = new JPasswordField();
 		passwordField.setFont(new Font("Bebas Neue", Font.PLAIN, 25));
-		passwordField.setBounds(607, 358, 200, 41);
+		passwordField.setBounds(609, 358, 198, 41);
 		contentPane.add(passwordField);
+		
+		setResizable(false);
 	}
 
 	@SuppressWarnings("static-access")

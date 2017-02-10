@@ -95,6 +95,8 @@ public class SecondActivity {
 			Proyeccion p = (Proyeccion)iter.next();
 			p.getFecha();
 			p.getHora();
+			
+			
 			//creamos un objeto de tipo calendar
 			
 			Calendar date1 = Calendar.getInstance();

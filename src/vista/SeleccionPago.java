@@ -6,7 +6,10 @@ import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -125,6 +128,7 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 		btnImprimir.setBackground(new Color(0, 102, 255));
 		btnImprimir.setBounds(548, 382, 284, 56);
 		btnImprimir.setBorder(emptyBorder);
+		btnImprimir.setFocusable(false);
 		panel_1.add(btnImprimir);
 		btnImprimir.addActionListener(this);
 
@@ -143,6 +147,7 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 		btnPagar.setBackground(new Color(0, 102, 255));
 		btnPagar.setBounds(224, 382, 284, 56);
 		btnPagar.setBorder(emptyBorder);
+		btnPagar.setFocusable(false);
 		panel_1.add(btnPagar);
 
 		JLabel label_5 = new JLabel("PRECIO ENTRADAS");
@@ -232,35 +237,49 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 		/*JLabel label_16 = new JLabel("Arag\u00F3 Cinema");
 		label_16.setForeground(Color.WHITE);
 		label_16.setFont(new Font("Bebas Neue", Font.PLAIN, 63));*/
-
-		JLabel label_17 = new JLabel("LUNES 16/01/2017 15:30");
+		/*Poner la fecha actual*/
+		Date date = new Date();
+		//Caso 1: obtenerhora y fecha y salida por pantalla con formato:
+		DateFormat hourdateFormat = new SimpleDateFormat("EEEEEEEEE dd/MM/yyyy  HH:mm");
+        JLabel label_17 = new JLabel(hourdateFormat.format(date).toString());
+	//	JLabel label_17 = new JLabel("LUNES 16/01/2017 15:30");
 		label_17.setForeground(Color.LIGHT_GRAY);
 		label_17.setFont(new Font("Bebas Neue", Font.PLAIN, 25));
 
-		JLabel label_18 = new JLabel("USUARIO: 589621");
+		JLabel label_18 = new JLabel("USUARIO: " + Login.usuarioInt.getText().toString());
 		label_18.setForeground(Color.LIGHT_GRAY);
 		label_18.setFont(new Font("Bebas Neue", Font.PLAIN, 24));
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
-		gl_panel_2
-				.setHorizontalGroup(
-						gl_panel_2.createParallelGroup(Alignment.LEADING).addGap(0, 1259, Short.MAX_VALUE)
-								.addGroup(gl_panel_2.createSequentialGroup().addGap(41).addComponent(label_15)
-										.addGap(18).addComponent(label_16)
-										.addPreferredGap(ComponentPlacement.RELATED, 474, Short.MAX_VALUE)
-										.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-												.addComponent(label_17, GroupLayout.PREFERRED_SIZE, 206,
-														GroupLayout.PREFERRED_SIZE)
-												.addComponent(label_18))
-										.addGap(36)));
-		gl_panel_2.setVerticalGroup(gl_panel_2.createParallelGroup(Alignment.LEADING).addGap(0, 140, Short.MAX_VALUE)
-				.addGroup(gl_panel_2.createSequentialGroup().addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(label_15).addGap(21))
-				.addGroup(gl_panel_2.createSequentialGroup().addGap(36)
-						.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING).addComponent(label_16)
-								.addGroup(gl_panel_2.createSequentialGroup().addGap(2).addComponent(label_18)
-										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(label_17,
-												GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)))
-						.addContainerGap(44, Short.MAX_VALUE)));
+		gl_panel_2.setHorizontalGroup(
+			gl_panel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addGap(41)
+					.addComponent(label_15)
+					.addGap(18)
+					.addComponent(label_16)
+					.addPreferredGap(ComponentPlacement.RELATED, 741, Short.MAX_VALUE)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+						.addComponent(label_18)
+						.addComponent(label_17))
+					.addGap(23))
+		);
+		gl_panel_2.setVerticalGroup(
+			gl_panel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addContainerGap(119, Short.MAX_VALUE)
+					.addComponent(label_15)
+					.addGap(21))
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addGap(36)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+						.addComponent(label_16)
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addGap(2)
+							.addComponent(label_18)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(label_17, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(40, Short.MAX_VALUE))
+		);
 		panel_2.setLayout(gl_panel_2);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)

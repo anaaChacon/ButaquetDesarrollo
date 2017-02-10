@@ -27,6 +27,9 @@ import javax.swing.ImageIcon;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.UIManager;
 
@@ -138,6 +141,7 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 		button.setBounds(548, 382, 284, 56);
 		button.addActionListener(this);
 		button.setBorder(emptyBorder);
+		button.setFocusable(false);
 		panel_1.add(button);
 		
 		JLabel lblSubtotal = new JLabel("SUBTOTAL");
@@ -161,34 +165,38 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 		/*JLabel label_9 = new JLabel("Arag\u00F3 Cinema");
 		label_9.setForeground(Color.WHITE);
 		label_9.setFont(new Font("Bebas Neue", Font.PLAIN, 63));*/
-		
-		JLabel label_10 = new JLabel("LUNES 16/01/2017 15:30");
+		/*Poner la fecha actual*/
+		Date date = new Date();
+		//Caso 1: obtenerhora y fecha y salida por pantalla con formato:
+		DateFormat hourdateFormat = new SimpleDateFormat("EEEEEEEEE dd/MM/yyyy  HH:mm");
+
+        JLabel label_10 = new JLabel(hourdateFormat.format(date).toString());
+        
+		//JLabel label_10 = new JLabel("LUNES 16/01/2017 15:30");
 		label_10.setForeground(Color.LIGHT_GRAY);
 		label_10.setFont(new Font("Bebas Neue", Font.PLAIN, 25));
 		
-		JLabel label_11 = new JLabel("USUARIO: 589621");
+		JLabel label_11 = new JLabel("USUARIO: " + Login.usuarioInt.getText().toString());
 		label_11.setForeground(Color.LIGHT_GRAY);
 		label_11.setFont(new Font("Bebas Neue", Font.PLAIN, 24));
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
 		gl_panel_2.setHorizontalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 1259, Short.MAX_VALUE)
 				.addGroup(gl_panel_2.createSequentialGroup()
 					.addGap(41)
 					.addComponent(label_8)
 					.addGap(18)
 					.addComponent(label_9)
-					.addPreferredGap(ComponentPlacement.RELATED, 474, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 719, Short.MAX_VALUE)
 					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-						.addComponent(label_10, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE)
-						.addComponent(label_11))
-					.addGap(36))
+						.addComponent(label_11)
+						.addComponent(label_10))
+					.addGap(23))
 		);
 		gl_panel_2.setVerticalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 140, Short.MAX_VALUE)
 				.addGroup(gl_panel_2.createSequentialGroup()
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addContainerGap(119, Short.MAX_VALUE)
 					.addComponent(label_8)
 					.addGap(21))
 				.addGroup(gl_panel_2.createSequentialGroup()
@@ -200,7 +208,7 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 							.addComponent(label_11)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(label_10, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(44, Short.MAX_VALUE))
+					.addContainerGap(40, Short.MAX_VALUE))
 		);
 		panel_2.setLayout(gl_panel_2);
 		GroupLayout gl_panel = new GroupLayout(panel);
@@ -230,6 +238,7 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 		btnPasoAtrs.setBounds(224, 382, 284, 56);
 		btnPasoAtrs.addActionListener(this);
 		btnPasoAtrs.setBorder(emptyBorder);
+		btnPasoAtrs.setFocusable(false);
 		panel_1.add(btnPasoAtrs);
 		
 		JLabel lblPrecioEntradas = new JLabel("PRECIO ENTRADAS");

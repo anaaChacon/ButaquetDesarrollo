@@ -22,7 +22,12 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.StringTokenizer;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -104,11 +109,15 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\dam2\\workspace\\ButacaHibernate\\images\\ticketpeque.png"));
 		
 		
-		JLabel lblUsuario = new JLabel("USUARIO: 589621");
+		JLabel lblUsuario = new JLabel("USUARIO: " + Login.usuarioInt.getText().toString());
 		lblUsuario.setForeground(Color.LIGHT_GRAY);
 		lblUsuario.setFont(new Font("Bebas Neue", Font.PLAIN, 24));
-		
-		JLabel lblLunes = new JLabel("LUNES 16/01/2017 15:30");
+		/*Poner la fecha actual*/
+		Date date = new Date();
+		//Caso 1: obtenerhora y fecha y salida por pantalla con formato:
+		DateFormat hourdateFormat = new SimpleDateFormat("EEEEEEEEE dd/MM/yyyy  HH:mm");
+        JLabel lblLunes = new JLabel(hourdateFormat.format(date).toString());
+        
 		lblLunes.setForeground(Color.LIGHT_GRAY);
 		lblLunes.setFont(new Font("Bebas Neue", Font.PLAIN, 25));
 		GroupLayout gl_datosCine = new GroupLayout(datosCine);
@@ -119,19 +128,22 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 					.addComponent(lblNewLabel)
 					.addGap(18)
 					.addComponent(lblAragCinema)
-					.addPreferredGap(ComponentPlacement.RELATED, 469, Short.MAX_VALUE)
-					.addGroup(gl_datosCine.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblLunes, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblUsuario))
-					.addGap(36))
+					.addPreferredGap(ComponentPlacement.RELATED, 701, Short.MAX_VALUE)
+					.addGroup(gl_datosCine.createParallelGroup(Alignment.TRAILING, false)
+						.addGroup(gl_datosCine.createSequentialGroup()
+							.addComponent(lblUsuario)
+							.addGap(82))
+						.addGroup(gl_datosCine.createSequentialGroup()
+							.addComponent(lblLunes, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addContainerGap())))
 		);
 		gl_datosCine.setVerticalGroup(
-			gl_datosCine.createParallelGroup(Alignment.TRAILING)
+			gl_datosCine.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_datosCine.createSequentialGroup()
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addContainerGap(119, Short.MAX_VALUE)
 					.addComponent(lblNewLabel)
 					.addGap(21))
-				.addGroup(Alignment.LEADING, gl_datosCine.createSequentialGroup()
+				.addGroup(gl_datosCine.createSequentialGroup()
 					.addGap(36)
 					.addGroup(gl_datosCine.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_datosCine.createSequentialGroup()
@@ -140,7 +152,7 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(lblLunes, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE))
 						.addComponent(lblAragCinema))
-					.addContainerGap(45, Short.MAX_VALUE))
+					.addContainerGap(40, Short.MAX_VALUE))
 		);
 		datosCine.setLayout(gl_datosCine);
 		
@@ -245,6 +257,7 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 		btnSiguientePaso.setBounds(173, 382, 284, 56);
 		btnSiguientePaso.addActionListener(this);
 		btnSiguientePaso.setBorder(emptyBorder);
+		btnSiguientePaso.setFocusable(false);
 		panel.add(btnSiguientePaso);
 		
 		JLabel lblSeleccioneUbicacin = new JLabel("SELECCIONE UBICACI\u00D3N");

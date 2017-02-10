@@ -67,7 +67,7 @@ public class Login extends JFrame implements  ActionListener {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\dam2\\workspace\\ButacaHibernate\\images\\ticket.png"));
+		lblNewLabel.setIcon(new ImageIcon("./src/images/ticket.png"));
 		lblNewLabel.setBounds(445, 55, 380, 192);
 		contentPane.add(lblNewLabel);
 		

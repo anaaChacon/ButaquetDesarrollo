@@ -227,7 +227,7 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 		panel_2.setBackground(Color.DARK_GRAY);
 
 		JLabel label_15 = new JLabel("");
-		label_15.setIcon(new ImageIcon("C:\\Users\\dam2\\workspace\\ProyectoButaquet\\images\\ticketpeque.png"));
+		label_15.setIcon(new ImageIcon("./src/images/ticketpeque.png"));
 
 		JLabel label_16 = new JLabel(SecondActivity.nombreCine(Integer.parseInt(Login.usuarioInt.getText().toString())));
 		label_16.setForeground(Color.WHITE);

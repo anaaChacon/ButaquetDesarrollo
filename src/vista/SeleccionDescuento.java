@@ -156,7 +156,7 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 		panel_2.setBackground(Color.DARK_GRAY);
 		
 		JLabel label_8 = new JLabel("");
-		label_8.setIcon(new ImageIcon("C:\\Users\\dam2\\workspace\\ButacaHibernate\\images\\ticketpeque.png"));
+		label_8.setIcon(new ImageIcon("./src/images/ticketpeque.png"));
 		
 		JLabel label_9 = new JLabel(SecondActivity.nombreCine(Integer.parseInt(Login.usuarioInt.getText().toString())));
 		label_9.setForeground(Color.WHITE);

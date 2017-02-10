@@ -106,7 +106,7 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 		
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\dam2\\workspace\\ButacaHibernate\\images\\ticketpeque.png"));
+		lblNewLabel.setIcon(new ImageIcon("./src/images/ticketpeque.png"));
 		
 		
 		JLabel lblUsuario = new JLabel("USUARIO: " + Login.usuarioInt.getText().toString());
@@ -284,6 +284,11 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 		lblAsientoConPersona.setFont(new Font("Bebas Neue", Font.PLAIN, 19));
 		lblAsientoConPersona.setBounds(719, 436, 267, 39);
 		panel.add(lblAsientoConPersona);
+		
+		/*JLabel para las butacas*/
+		JLabel pintarButacas = new JLabel("");
+		pintarButacas.setBounds(646, 111, 532, 253);
+		panel.add(pintarButacas);
 		contentPane.setLayout(gl_contentPane);
 		
 		setResizable(false);
@@ -379,5 +384,4 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 					
          }
 	}
-	
 }

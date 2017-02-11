@@ -48,7 +48,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-public class SeleccionPrincipal extends JFrame implements ItemListener, ActionListener {
+public class SeleccionPrincipal extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -217,8 +217,49 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 		for(int i = 0; i < listado.size(); i++){
 			comboBox.addItem(listado.get(i));
 		}
+		comboBox.setSelectedItem(null);
 		
-		comboBox.addItemListener(this);   
+		comboBox.addItemListener(new ItemListener(){
+			public void itemStateChanged(ItemEvent e){
+				 if (e.getStateChange() == ItemEvent.SELECTED) {
+				 
+					 ArrayList<String>listadoSesion = new ArrayList<>();
+					 
+					 String nombrePelicula = (String) comboBox.getSelectedItem();
+					 
+					 listadoSesion.addAll(SecondActivity.fecha(nombrePelicula));
+						//System.out.print(listado);
+						
+					 comboBox_1.removeAllItems();
+					 
+						for(int i = 0; i < listadoSesion.size(); i++){
+							comboBox_1.addItem(listadoSesion.get(i));
+						}
+						
+						int itemCount = comboBox_1.getItemCount();
+
+						   if(itemCount > 1){
+							   comboBox_1.setEnabled(true);
+							   comboBox_1.setSelectedItem(null);
+							   comboBox_2.setEnabled(false);
+							   comboBox_2.setSelectedItem(null);
+						   }
+						   else if(itemCount == 0){
+							   comboBox_2.removeAllItems();
+							   comboBox_1.setEnabled(false);
+							   comboBox_2.setEnabled(false);
+						   }
+						   else{
+							   comboBox_1.setEnabled(false);
+							   comboBox_2.setSelectedItem(null);
+							   //comboBox_2.setEnabled(true);
+							   /*Añadir al combobox_2 los items*/
+							   
+						   }
+						
+			 }	   
+			}
+		});   
 		panel.add(comboBox);
 		
 		comboBox_1 = new JComboBox<String>();
@@ -227,7 +268,47 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 		comboBox_1.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		comboBox_1.setBounds(254, 81, 244, 36);
 		
-		comboBox_1.addItemListener(this);
+		comboBox_1.addItemListener(new ItemListener(){
+			public void itemStateChanged(ItemEvent e){
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					 
+					 ArrayList<String>listadoSalas = new ArrayList<>();
+					 
+					  String nombrePelicula = (String) comboBox.getSelectedItem();
+					  
+					  String sesion = (String) comboBox_1.getSelectedItem();
+					  StringTokenizer tk = new StringTokenizer(sesion, " ");
+					  String fecha = null, hora = null;
+					  while(tk.hasMoreTokens()){
+						  fecha = tk.nextToken();
+						  hora = tk.nextToken();
+					  }
+					  
+						listadoSalas.addAll(SecondActivity.numSala(nombrePelicula, fecha, hora));
+						
+						 comboBox_2.removeAllItems();
+						 
+							for(int i = 0; i < listadoSalas.size(); i++){
+								  
+								   comboBox_2.addItem(listadoSalas.get(i));
+		 
+							}
+							
+							 int itemCount = comboBox_2.getItemCount();
+
+							   if(itemCount > 1){
+								   comboBox_2.setEnabled(true);
+								   comboBox_2.setSelectedItem(null);
+ 
+							   }else{
+								   comboBox_2.setEnabled(false);
+									
+							   }
+							   
+								comboBox_2.getItemAt(1);	
+				}
+				 }	   
+			});
 		panel.add(comboBox_1);
 		
 		comboBox_2 = new JComboBox<String>();
@@ -236,7 +317,34 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 		comboBox_2.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		comboBox_2.setBounds(254, 131, 244, 36);
 		
-		comboBox_2.addItemListener(this);
+		comboBox_2.addItemListener(new ItemListener(){
+			public void itemStateChanged(ItemEvent e){
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					
+					 asientos = new JButton[2][2];
+						
+						for(int i = 0; i < asientos.length; i++){
+							for(int j = 0; j < asientos[i].length; j++){
+								JButton butaca = new JButton();
+								ImageIcon icono = new ImageIcon("./src/images/libre.png");
+								Image img = icono.getImage();
+								Image otraimg = img.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+								ImageIcon icon = new ImageIcon(otraimg);
+								butaca.setIcon(icon);
+								butaca.setBorderPainted(false);
+								butaca.setContentAreaFilled(false);
+								butaca.setFocusable(false);
+								butaca.setRolloverEnabled(true);
+								
+								asientos[i][j] = butaca;
+								pintarButacas.add(asientos[i][j]);
+							}
+						}
+						//JScrollPane scroll2 = new JScrollPane(pintarButacas);
+						panel.add(pintarButacas);
+				 } 
+			}
+		});
 		panel.add(comboBox_2);
 		
 		JLabel lblNDeButacas = new JLabel("N\u00BA de Butacas Selec.");
@@ -296,9 +404,6 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 		pintarButacas.setBackground(Color.GRAY);
 		pintarButacas.setBounds(646, 111, 532, 253);
 		
-		
-		
-		
 		contentPane.setLayout(gl_contentPane);
 		setResizable(false);
 	}
@@ -315,138 +420,7 @@ public class SeleccionPrincipal extends JFrame implements ItemListener, ActionLi
 		}
 	}
 
-	@Override
-	public void itemStateChanged(ItemEvent e) {
-		// TODO Auto-generated method stub
-		 if (e.getStateChange() == ItemEvent.SELECTED) {
-			 
-			 if(e.getSource() == comboBox){
-				 
-				 ArrayList<String>listadoSesion = new ArrayList<>();
-				 
-				 String nombrePelicula = (String) comboBox.getSelectedItem();
-				 
-				 listadoSesion.addAll(SecondActivity.fecha(nombrePelicula));
-					//System.out.print(listado);
-					
-				 comboBox_1.removeAllItems();
-				 
-					for(int i = 0; i < listadoSesion.size(); i++){
-						comboBox_1.addItem(listadoSesion.get(i));
-					}
-					
-					int itemCount = comboBox_1.getItemCount();
-
-					   if(itemCount > 1){
-						   comboBox_1.setEnabled(true);
-						   comboBox_2.setEnabled(false);
-					   }
-					   else if(itemCount == 0){
-						   comboBox_2.removeAllItems();
-						   comboBox_1.setEnabled(false);
-						   comboBox_2.setEnabled(false);
-					   }
-					   else{
-						   comboBox_1.setEnabled(false);
-						   //comboBox_2.setEnabled(true);
-						   /*Añadir al combobox_2 los items*/
-						   
-					   }
-					  // comboBox_2.removeAllItems();
-					   
-			 } 
-			 
-			 if(e.getSource() == comboBox_1){
-			  ArrayList<String>listadoSalas = new ArrayList<>();
-			 
-			  String nombrePelicula = (String) comboBox.getSelectedItem();
-			  
-			  String sesion = (String) comboBox_1.getSelectedItem();
-			  StringTokenizer tk = new StringTokenizer(sesion, " ");
-			  String fecha = null, hora = null;
-			  while(tk.hasMoreTokens()){
-				  fecha = tk.nextToken();
-				  hora = tk.nextToken();
-			  }
-			  
-				listadoSalas.addAll(SecondActivity.numSala(nombrePelicula, fecha, hora));
-				
-				 comboBox_2.removeAllItems();
-				 
-					for(int i = 0; i < listadoSalas.size(); i++){
-						  
-						   comboBox_2.addItem(listadoSalas.get(i));
-  
-					}
-					
-					 int itemCount = comboBox_2.getItemCount();
-
-					   if(itemCount > 1){
-						   comboBox_2.setEnabled(true);
-						   
-						 /*  String numeroSala = null;
-						   
-						   String salaSeleccionada = comboBox_2.getSelectedItem().toString();
-						   
-						   StringTokenizer tk2 = new StringTokenizer(salaSeleccionada, " ");
-						   while(tk2.hasMoreTokens()){
-							   String cadena = tk2.nextToken();
-							   numeroSala = tk2.nextToken();
-						   }
-						   
-						   System.out.print(numeroSala);*/
-						  
-						   /*Usamos el método de filas y columnas
-						   filasColumnas.addAll(SecondActivity.dimensionSala(Integer.parseInt(numeroSala)));//null
-						   
-						   filas = filasColumnas.get(0);
-						   columnas = filasColumnas.get(1);*/
-						   						   
-						   
-					   }else{
-						   comboBox_2.setEnabled(false);
-						   /*Usamos el método de filas y columnas
-						   filasColumnas.addAll(SecondActivity.dimensionSala(Integer.parseInt(comboBox_2.getItemAt(1).toString())));
-						   
-						   filas = filasColumnas.get(0);
-						   columnas = filasColumnas.get(1);*/
-						   
-						   					   
-						  
-					   }
-					   
-						comboBox_2.getItemAt(1);
-			 }
-			 
-			 if(e.getSource() == comboBox_2){
-				
-				 
-				 asientos = new JButton[2][2];
-					
-					for(int i = 0; i < asientos.length; i++){
-						for(int j = 0; j < asientos[i].length; j++){
-							JButton butaca = new JButton();
-							ImageIcon icono = new ImageIcon("./src/images/libre.png");
-							Image img = icono.getImage();
-							Image otraimg = img.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-							ImageIcon icon = new ImageIcon(otraimg);
-							butaca.setIcon(icon);
-							butaca.setBorderPainted(false);
-							butaca.setContentAreaFilled(false);
-							butaca.setFocusable(false);
-							butaca.setRolloverEnabled(true);
-							
-							asientos[i][j] = butaca;
-							pintarButacas.add(asientos[i][j]);
-						}
-					}
-					//JScrollPane scroll2 = new JScrollPane(pintarButacas);
-					panel.add(pintarButacas);
-			 }
-			 
-			 
-			 
-					
-         }
-	}
+	   
+		
+	
 }

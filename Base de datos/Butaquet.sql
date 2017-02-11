@@ -120,7 +120,7 @@ CREATE TABLE `proyeccion` (
   KEY `pelicula_id` (`pelicula_id`),
   CONSTRAINT `proyeccion_ibfk_1` FOREIGN KEY (`sala_id`) REFERENCES `salas` (`id_sala`),
   CONSTRAINT `proyeccion_ibfk_2` FOREIGN KEY (`pelicula_id`) REFERENCES `peliculas` (`id_pelicula`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,7 +129,7 @@ CREATE TABLE `proyeccion` (
 
 LOCK TABLES `proyeccion` WRITE;
 /*!40000 ALTER TABLE `proyeccion` DISABLE KEYS */;
-INSERT INTO `proyeccion` VALUES (1,1,1,'17:00:00','2017-02-14'),(2,4,1,'19:00:00','2017-02-21'),(3,1,1,'21:00:00','2017-02-14'),(4,2,2,'16:30:00','2017-02-14'),(5,3,2,'20:40:00','2017-02-14'),(6,2,3,'22:30:00','2017-02-14'),(7,5,1,'17:00:00','2017-02-14');
+INSERT INTO `proyeccion` VALUES (1,1,1,'17:00:00','2017-02-14'),(2,4,1,'19:00:00','2017-02-21'),(3,1,1,'21:00:00','2017-02-14'),(4,2,2,'16:30:00','2017-02-14'),(5,3,2,'20:40:00','2017-02-14'),(6,2,3,'22:30:00','2017-02-14'),(7,5,1,'17:00:00','2017-02-14'),(8,4,3,'22:30:00','2017-02-14');
 /*!40000 ALTER TABLE `proyeccion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -171,4 +171,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-10 19:05:21
+-- Dump completed on 2017-02-11 13:03:06

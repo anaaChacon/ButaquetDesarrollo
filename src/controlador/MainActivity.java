@@ -24,19 +24,26 @@ public class MainActivity {
 		
 		boolean correcto = false;
 		
+		//Obtenemos la contraseña y el usuario y almacenarlos en una variable
+		char[]arrayC = Login.passwordField.getPassword();
+		String contra = new String(arrayC);
+		
+		String usuario = Login.usuarioInt.getText().toString();
 		//Comprobar que los campos no estan vacíos
-		if(Login.usuarioInt.getText().toString().isEmpty() || Login.passwordField.getPassword().toString().isEmpty()){
+		if(Login.usuarioInt.getText().toString().isEmpty() || contra.isEmpty()){
+			
 			JOptionPane.showMessageDialog(null, "Los campos no pueden estar vacíos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 			correcto = false;
-		}else{
+		}
+		
 			
-			Iterator<?> iter = session.createQuery("from Empleados where acceso_usuario = '"+Integer.parseInt(Login.usuarioInt.getText())+"' "
-					+ "and acceso_contrasenya = '"+Integer.parseInt(Login.passwordField.getText().toString())+"'").iterate();
-
-
+			if(!Login.usuarioInt.getText().toString().isEmpty() && !contra.isEmpty()){
+			
+			
+			Iterator<?> iter = session.createQuery("from Empleados where acceso_usuario = '"+usuario+"' "
+					+ "and acceso_contrasenya = '"+contra+"'").iterate();
 			
 			if(iter.hasNext()){
-				//System.out.println("OK, si existe");
 				
 				correcto = true;
 				
@@ -45,20 +52,13 @@ public class MainActivity {
 				correcto = false;
 			}
 			
-			if(correcto=true){
-				int userID;
-				userID=Integer.parseInt(Login.usuarioInt.getText().toString());
-				
-			}
 			
 			//Realize to transaction
 			session.getTransaction().commit();
 			//Close the sesion
 			session.close();
-			//
-//return false;
-
-}
+			
+		}
 		return correcto;
 	
 	}

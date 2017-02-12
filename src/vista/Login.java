@@ -1,25 +1,16 @@
 package vista;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
+import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-
 import controlador.MainActivity;
-
-import java.awt.SystemColor;
-import java.awt.FlowLayout;
-import javax.swing.JComboBox;
-import javax.swing.JEditorPane;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.UIManager;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.Color;
@@ -30,9 +21,14 @@ import java.awt.event.ActionEvent;
 
 public class Login extends JFrame implements  ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	public static JTextField usuarioInt;
 	public static JPasswordField passwordField;
+	@SuppressWarnings("unused")
 	private String[] args;
 	Border emptyBorder = BorderFactory.createEmptyBorder();
 
@@ -104,14 +100,7 @@ public class Login extends JFrame implements  ActionListener {
 		//Este metodo sirve para quitarle el cuadrado
 		btnEntrar.setFocusable(false);
 		btnEntrar.addActionListener(this);
-		/*
-		btnEntrar.addActionListener(new ActionListener() {
-			private String[] args;
-
-			public void actionPerformed(ActionEvent e) {
-				SeleccionPrincipal.main(args);
-			}
-		});*/
+		
 		btnEntrar.setForeground(Color.WHITE);
 		btnEntrar.setBackground(new Color(0, 102, 255));
 		btnEntrar.setFont(new Font("Bebas Neue", Font.PLAIN, 40));
@@ -123,6 +112,7 @@ public class Login extends JFrame implements  ActionListener {
 		passwordField.setBounds(609, 358, 198, 41);
 		contentPane.add(passwordField);
 		
+		setLocationRelativeTo(null);
 		setResizable(false);
 	}
 
@@ -140,13 +130,12 @@ public class Login extends JFrame implements  ActionListener {
 			
 			setVisible(false);
 			
-			//JOptionPane.showMessageDialog(null, "Bienvenido/a usuario: " + Login.usuarioInt.getText().toString(), "Home", JOptionPane.INFORMATION_MESSAGE);
+			
 		}else{
 			
 			setVisible(true);
 		}
 		
-		//System.exit(0);
-		//SeleccionPrincipal.main(args);
+	
 	}
 }

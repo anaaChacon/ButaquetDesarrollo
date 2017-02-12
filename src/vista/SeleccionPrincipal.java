@@ -1,17 +1,13 @@
 package vista;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
+import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-
-import controlador.MainActivity;
 import controlador.SecondActivity;
-
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Image;
@@ -19,27 +15,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.StringTokenizer;
 import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.Dimension;
-
-
 import javax.swing.ImageIcon;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import java.awt.CardLayout;
-import java.awt.FlowLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -47,18 +31,34 @@ import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.ScrollPaneConstants;
+import java.awt.GridLayout;
+
 
 public class SeleccionPrincipal extends JFrame implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
+	public static JTextField textField;
 	private JComboBox<String> comboBox_2, comboBox, comboBox_1;
-	private JButton btnSiguientePaso;
+	private JButton btnSiguientePaso, btnNewButton, btnNuevo, butaca, butaca2;
+	@SuppressWarnings("unused")
 	private ArrayList<Integer>filasColumnas;
+	@SuppressWarnings("unused")
 	private int filas, columnas;
-	private JPanel pintarButacas;
+	private JScrollPane pintarButacas;
 	private JPanel panel;
-	private JButton [][] asientos;
+	@SuppressWarnings("unused")
+	private JButton [][] asientos, asientosOcupados;
+	private int fila, columna;
+	private JPanel misButacas;
+	@SuppressWarnings("unused")
+	private boolean seleccionado = false;
+	
+	private int posicion, contador;
 	Border emptyBorder = BorderFactory.createEmptyBorder();
 
 
@@ -95,21 +95,7 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 		
 		JLabel lblAragCinema = new JLabel(SecondActivity.nombreCine(Integer.parseInt(Login.usuarioInt.getText().toString())));
 		lblAragCinema.setForeground(Color.WHITE);
-		lblAragCinema.setFont(new Font("Bebas Neue", Font.PLAIN, 63));
-		
-		/*JLabel lblAragCinema = new JLabel("Arag\u00F3 Cinema");
-		lblAragCinema.setForeground(Color.WHITE);
-		lblAragCinema.setFont(new Font("Bebas Neue", Font.PLAIN, 63));*/
-		
-		//JLabel lblNewLabel = new JLabel();
-		
-		
-		//URL path = getClass().getResource("ticketpeque.png");
-		
-		//Image img = new ImageIcon(path).getImage();
-		
-		//lblNewLabel.setIcon(new ImageIcon(img)); //ERA ESTO!!
-		
+		lblAragCinema.setFont(new Font("Bebas Neue", Font.PLAIN, 63));	
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon("./src/images/ticketpeque.png"));
@@ -208,11 +194,8 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 		comboBox.setBackground(Color.WHITE);
 		comboBox.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		comboBox.setBounds(254, 31, 244, 36);
-		//comboBox.add(SecondActivity.nombrePelicula());
 		ArrayList<String>listado = new ArrayList<>();
 		listado.addAll(SecondActivity.nombrePelicula());
-		//System.out.print(listado);
-		
 		
 		for(int i = 0; i < listado.size(); i++){
 			comboBox.addItem(listado.get(i));
@@ -224,12 +207,9 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 				 if (e.getStateChange() == ItemEvent.SELECTED) {
 				 
 					 ArrayList<String>listadoSesion = new ArrayList<>();
-					 
 					 String nombrePelicula = (String) comboBox.getSelectedItem();
-					 
 					 listadoSesion.addAll(SecondActivity.fecha(nombrePelicula));
-						//System.out.print(listado);
-						
+				
 					 comboBox_1.removeAllItems();
 					 
 						for(int i = 0; i < listadoSesion.size(); i++){
@@ -252,11 +232,8 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 						   else{
 							   comboBox_1.setEnabled(false);
 							   comboBox_2.setSelectedItem(null);
-							   //comboBox_2.setEnabled(true);
-							   /*Añadir al combobox_2 los items*/
-							   
-						   }
-						
+						   
+						   }	
 			 }	   
 			}
 		});   
@@ -305,7 +282,7 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 									
 							   }
 							   
-								comboBox_2.getItemAt(1);	
+								//comboBox_2.getItemAt(1);	
 				}
 				 }	   
 			});
@@ -320,32 +297,32 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 		comboBox_2.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent e){
 				if (e.getStateChange() == ItemEvent.SELECTED) {
+					String cadena = null, numSala = null;
+					StringTokenizer tk = new StringTokenizer((String) comboBox_2.getSelectedItem(), " ");
+					while(tk.hasMoreTokens()){
+						cadena = tk.nextToken();
+						numSala = tk.nextToken();
+					}
+					System.out.print(cadena + " - " + numSala);
+					int salita = Integer.parseInt(numSala);
 					
-					 asientos = new JButton[2][2];
-						
-						for(int i = 0; i < asientos.length; i++){
-							for(int j = 0; j < asientos[i].length; j++){
-								JButton butaca = new JButton();
-								ImageIcon icono = new ImageIcon("./src/images/libre.png");
-								Image img = icono.getImage();
-								Image otraimg = img.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-								ImageIcon icon = new ImageIcon(otraimg);
-								butaca.setIcon(icon);
-								butaca.setBorderPainted(false);
-								butaca.setContentAreaFilled(false);
-								butaca.setFocusable(false);
-								butaca.setRolloverEnabled(true);
-								
-								asientos[i][j] = butaca;
-								pintarButacas.add(asientos[i][j]);
-							}
-						}
-						//JScrollPane scroll2 = new JScrollPane(pintarButacas);
-						panel.add(pintarButacas);
+					ArrayList<Integer> listaSala = new ArrayList<>();
+					listaSala.addAll(SecondActivity.dimensionSala(salita));
+					System.out.println(listaSala);
+					
+					
+				
+					fila = listaSala.get(0);
+					columna = listaSala.get(1);
+					System.out.println("Fila: " +fila + "\nColumna: " + columna);
+					}
+					 
 				 } 
-			}
+			
 		});
 		panel.add(comboBox_2);
+		
+		
 		
 		JLabel lblNDeButacas = new JLabel("N\u00BA de Butacas Selec.");
 		lblNDeButacas.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -355,11 +332,10 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 		panel.add(lblNDeButacas);
 		
 		textField = new JTextField();
+		textField.setEditable(false);
 		textField.setHorizontalAlignment(SwingConstants.CENTER);
 		textField.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		textField.setBackground(Color.WHITE);
-		textField.setEditable(false);
-		textField.setText("120\r\n");
 		textField.setBounds(254, 258, 51, 36);
 		panel.add(textField);
 		textField.setColumns(10);
@@ -384,33 +360,57 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 		JLabel lblNewLabel_1 = new JLabel("VERDE: LIBRE");
 		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setFont(new Font("Bebas Neue", Font.PLAIN, 19));
-		lblNewLabel_1.setBounds(719, 375, 267, 39);
+		lblNewLabel_1.setBounds(719, 400, 267, 39);
 		panel.add(lblNewLabel_1);
 		
 		JLabel lblAsientoRojoSeleccionado = new JLabel("SELECCIONADO: AMARILLO");
 		lblAsientoRojoSeleccionado.setForeground(Color.WHITE);
 		lblAsientoRojoSeleccionado.setFont(new Font("Bebas Neue", Font.PLAIN, 19));
-		lblAsientoRojoSeleccionado.setBounds(719, 405, 267, 39);
+		lblAsientoRojoSeleccionado.setBounds(719, 436, 267, 39);
 		panel.add(lblAsientoRojoSeleccionado);
 		
 		JLabel lblAsientoConPersona = new JLabel("ROJO: ASIENTO NO DISPONIBLE");
 		lblAsientoConPersona.setForeground(Color.WHITE);
 		lblAsientoConPersona.setFont(new Font("Bebas Neue", Font.PLAIN, 19));
-		lblAsientoConPersona.setBounds(719, 436, 267, 39);
+		lblAsientoConPersona.setBounds(719, 473, 267, 39);
 		panel.add(lblAsientoConPersona);
 		
-		/*JLabel para las butacas*/
-		pintarButacas = new JPanel();
-		pintarButacas.setBackground(Color.GRAY);
-		pintarButacas.setBounds(646, 111, 532, 253);
+		btnNewButton = new JButton("LISTO");
+		btnNewButton.setBackground(new Color(0, 102, 255));
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setFont(new Font("Bebas Neue", Font.PLAIN, 28));
+		btnNewButton.setBounds(233, 191, 107, 36);
+		btnNewButton.addActionListener(this);
+		panel.add(btnNewButton);
 		
+		misButacas = new JPanel();
+		misButacas.setBackground(Color.GRAY);
+	
+		pintarButacas = new JScrollPane();
+		pintarButacas.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		pintarButacas.setViewportView(misButacas);
+		pintarButacas.setBackground(Color.GRAY);
+		pintarButacas.setBounds(619, 102, 606, 287);
+		
+		panel.add(pintarButacas);
+		
+		btnNuevo = new JButton("NUEVO");
+		btnNuevo.setForeground(Color.WHITE);
+		btnNuevo.setFont(new Font("Bebas Neue", Font.PLAIN, 28));
+		btnNuevo.setBackground(new Color(0, 102, 255));
+		btnNuevo.setBounds(391, 191, 107, 36);
+		btnNuevo.addActionListener(this);
+		panel.add(btnNuevo);
+		
+		
+		setLocationRelativeTo(null);
 		contentPane.setLayout(gl_contentPane);
 		setResizable(false);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+	
 		if(e.getSource() == btnSiguientePaso){
 		
 			SeleccionDescuento f = new SeleccionDescuento();
@@ -418,9 +418,95 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 			f.setVisible(true);	
 			setVisible(false);
 		}
-	}
+		if(e.getSource() == btnNewButton){
+			
+				asientos = new JButton[fila][columna];
+				
+				for(int i = 0; i < asientos.length; i++){
+					for(int j = 0; j < asientos[i].length; j++){
 
-	   
+						butaca = new JButton();
+						
+						ImageIcon icono = new ImageIcon("./src/images/libre.png");
+						Image img = icono.getImage();
+						Image otraimg = img.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+						ImageIcon icon = new ImageIcon(otraimg);
+						
+						butaca.setIcon(icon);
+						butaca.setBorderPainted(false);
+						//butaca.setMargin(new Insets(0, 0, 0, 0));
+						butaca.setContentAreaFilled(false);
+						butaca.setFocusable(false);
+						butaca.setRolloverEnabled(true);
+						
+						butaca.addActionListener(this);
+						butaca.setActionCommand(posicion++ +"boton");
+						
+						asientos[i][j] = butaca;
+						misButacas.add(asientos[i][j]);
+					}
+				}
+				misButacas.setLayout(new GridLayout(fila,columna));
+				//pintarButacas.revalidate();
+				misButacas.revalidate();
+				
+				btnNewButton.setEnabled(false);
+				comboBox.setEnabled(false);
+				comboBox_1.setEnabled(false);
+				comboBox_2.setEnabled(false);
+				
+		}
+		for(int i = 0; i < posicion; i++){
+			
+			if(e.getActionCommand().equals(i+"boton")){
+				contador++;
+				butaca2 = new JButton();
+				butaca2 = (JButton)e.getSource();
+				ImageIcon icono = new ImageIcon("./src/images/seleccionado.png");
+				Image img = icono.getImage();
+				Image otraimg = img.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+				ImageIcon icon = new ImageIcon(otraimg);
+				//butaca2.setMargin(new Insets(0, 0, 0, 0));
+				butaca2.setIcon(icon);
+				butaca2.setBorderPainted(false);
+				butaca2.setContentAreaFilled(false);
+				butaca2.setFocusable(false);
+				butaca2.setRolloverEnabled(true);
+				//Hacemos que el botón seleccionado no pueda volver a ser pulsaldo
+				butaca2.removeActionListener(this);
+				seleccionado = true;
+				textField.setText(String.valueOf(contador));
+				
+				
+			}
+			
+		}
 		
-	
+		if(e.getSource() == btnNuevo){
+			for(int i = 0; i < asientos.length; i++){
+				for(int j = 0; j < asientos[i].length; j++){
+				
+				misButacas.remove(asientos[i][j]);
+				}
+			}
+			fila = 0;
+			columna = 0;
+			contador = 0;
+			textField.setText("");
+			comboBox.setSelectedItem(null);
+			comboBox_1.removeAllItems();
+			comboBox_2.removeAllItems();
+			comboBox.setEnabled(true);
+			//comboBox_1.setEnabled(false);
+			//comboBox_2.setEnabled(false);
+			misButacas.revalidate();
+			
+			btnNewButton.setEnabled(true);
+		
+		}
+		
+		
+		
+		
+	}
 }

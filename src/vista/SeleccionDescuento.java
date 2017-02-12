@@ -125,13 +125,13 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 		panel_1.add(label_3);
 		
 		textField = new JTextField();
-		textField.setText("120\r\n");
 		textField.setHorizontalAlignment(SwingConstants.CENTER);
 		textField.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		textField.setEditable(false);
 		textField.setColumns(10);
 		textField.setBackground(Color.WHITE);
 		textField.setBounds(254, 30, 48, 36);
+		textField.setText(SeleccionPrincipal.textField.getText().toString());
 		panel_1.add(textField);
 		
 		button = new JButton("Siguiente Paso\r\n");
@@ -314,6 +314,7 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 		panel_1.add(label);
 		panel.setLayout(gl_panel);
 		
+		setLocationRelativeTo(null);
 		setResizable(false);
 	}
 	@Override

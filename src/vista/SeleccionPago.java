@@ -349,6 +349,7 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 		
 		panel.setLayout(gl_panel);
 
+		setLocationRelativeTo(null);
 		setResizable(false);
 
 	}

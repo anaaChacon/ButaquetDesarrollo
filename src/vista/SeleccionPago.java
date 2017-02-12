@@ -13,6 +13,7 @@ import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
@@ -28,7 +29,10 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.SystemColor;
@@ -45,6 +49,10 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 
 	private JPanel contentPane;
 	private JButton btnPagar, btnImprimir;
+	//private static JProgressBar progressBar = new JProgressBar(0,100);
+	private static JProgressBar pbProgress;
+	private static JDialog dlgProgress;
+	
 	Border emptyBorder = BorderFactory.createEmptyBorder();
 
 	/**
@@ -129,8 +137,9 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 		btnImprimir.setBounds(548, 382, 284, 56);
 		btnImprimir.setBorder(emptyBorder);
 		btnImprimir.setFocusable(false);
-		panel_1.add(btnImprimir);
 		btnImprimir.addActionListener(this);
+		panel_1.add(btnImprimir);
+		
 
 		JLabel label_4 = new JLabel("SUBTOTAL");
 		label_4.setHorizontalAlignment(SwingConstants.CENTER);
@@ -347,6 +356,12 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 				panel_1.add(comboCupon);
 		panel_1.add(comboGratuito);
 		
+		
+		/*progressBar.setBounds(414, 153, 229, 40);
+		progressBar.setStringPainted(true);
+		progressBar.setVisible(false);
+		panel_1.add(progressBar);*/
+		
 		panel.setLayout(gl_panel);
 
 		setLocationRelativeTo(null);
@@ -371,10 +386,62 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 		}
 
 		if (e.getSource() == btnImprimir) {
+			
+			//true means that the dialog created is modal
+			dlgProgress = new JDialog();
+			//dlgProgress.setBounds(414, 153, 229, 40);
+			//dlgProgress.setBackground(Color.BLACK);
+			
+			pbProgress = new JProgressBar(0, 100);
+			pbProgress.setForeground(Color.BLACK);
+			//pbProgress.setSize(60,20);
+			//este es de un lado para otro
+			//pbProgress.setIndeterminate(true); 
+			//pbProgress.setBounds(200, 50, 100, 20);
+			pbProgress.setStringPainted(true);
+			pbProgress.setVisible(false);
 
+			dlgProgress.add(pbProgress);
+			// prevent the user from closing the dialog
+			dlgProgress.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); 
+			dlgProgress.setSize(400, 80);
+			dlgProgress.setLocationRelativeTo(null);
+			
+			pbProgress.setVisible(true);
+			//Instanciamos el hilo
+		 	Hilo h = new Hilo();
+		 	//Istacionamos un Thread para pasarle nuestra clase hilo
+		 	Thread hi = new Thread(h);
+		 	//Inicializamos el hilo
+		 	hi.start();
+
+			dlgProgress.setVisible(true);
+			
 		}
 
 	}
+	//Metodo run para ir cambiando el valor del progres bar
+	public static class Hilo implements Runnable{
+	    @Override
+	    public void run(){
+	    	
+	        for (int i=0; i<=100; i++){
+	        	
+	           try{
+	                Thread.sleep(50); 
+	                //cambia el estado de la barra en i unidades
+	                pbProgress.setValue(i); 
+	                //repintamos el estado de la barra a el actual
+	                pbProgress.repaint(); 
+	           } catch (InterruptedException e){}
+	           
+	        if(pbProgress.getValue() == 100){
+	        	dlgProgress.dispose();
+	        }
+	    	}
+	        
+	    }
+	    }
 
 
 	@Override
@@ -382,5 +449,4 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 		// TODO Auto-generated method stub
 		
 	}
-
 }

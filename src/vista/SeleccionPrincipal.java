@@ -15,6 +15,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,7 +48,7 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 	private JPanel contentPane;
 	public static JTextField textField;
 	private JComboBox<String> comboBox_2, comboBox, comboBox_1;
-	private JButton btnSiguientePaso, btnNewButton, btnNuevo, butaca, butaca2;
+	private JButton btnSiguientePaso, btnNewButton, btnNuevo, butaca, butaca2, butacaOcupada;
 	@SuppressWarnings("unused")
 	private ArrayList<Integer>filasColumnas;
 	@SuppressWarnings("unused")
@@ -52,9 +56,11 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 	private JScrollPane pintarButacas;
 	private JPanel panel;
 	@SuppressWarnings("unused")
-	private JButton [][] asientos, asientosOcupados;
+	private JButton [][] asientos;
+	private ArrayList<JButton>asientosOcupados;
 	private int fila, columna;
 	private JPanel misButacas;
+	private boolean ocupado = false;
 	
 	
 	private int posicion, contador;
@@ -89,10 +95,13 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		
 		JPanel datosCine = new JPanel();
+		datosCine.setBounds(0, 0, 1273, 140);
 		datosCine.setBackground(Color.DARK_GRAY);
 		datosCine.setPreferredSize(new Dimension(1280,140));
 		
-		JLabel lblAragCinema = new JLabel(SecondActivity.nombreCine(Integer.parseInt(Login.usuarioInt.getText().toString())));
+		String nombreCine = SecondActivity.nombreCine(Integer.parseInt(Login.usuarioInt.getText().toString()));
+		JLabel lblAragCinema = new JLabel(nombreCine);
+		
 		lblAragCinema.setForeground(Color.WHITE);
 		lblAragCinema.setFont(new Font("Bebas Neue", Font.PLAIN, 63));	
 		
@@ -119,14 +128,11 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 					.addComponent(lblNewLabel)
 					.addGap(18)
 					.addComponent(lblAragCinema)
-					.addPreferredGap(ComponentPlacement.RELATED, 701, Short.MAX_VALUE)
-					.addGroup(gl_datosCine.createParallelGroup(Alignment.TRAILING, false)
-						.addGroup(gl_datosCine.createSequentialGroup()
-							.addComponent(lblUsuario)
-							.addGap(82))
-						.addGroup(gl_datosCine.createSequentialGroup()
-							.addComponent(lblLunes, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addContainerGap())))
+					.addPreferredGap(ComponentPlacement.RELATED, 747, Short.MAX_VALUE)
+					.addGroup(gl_datosCine.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblUsuario)
+						.addComponent(lblLunes, GroupLayout.PREFERRED_SIZE, 224, GroupLayout.PREFERRED_SIZE))
+					.addGap(18))
 		);
 		gl_datosCine.setVerticalGroup(
 			gl_datosCine.createParallelGroup(Alignment.LEADING)
@@ -148,24 +154,8 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 		datosCine.setLayout(gl_datosCine);
 		
 		panel = new JPanel();
+		panel.setBounds(0, 139, 1273, 553);
 		panel.setBackground(Color.GRAY);
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 1268, GroupLayout.PREFERRED_SIZE)
-						.addComponent(datosCine, GroupLayout.PREFERRED_SIZE, 1259, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(12, Short.MAX_VALUE))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(datosCine, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
 		panel.setLayout(null);
 		
 		JLabel lblSeleccionePelcula = new JLabel("SELECCIONE PEL\u00CDCULA");
@@ -390,6 +380,8 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 		btnNewButton.setForeground(Color.WHITE);
 		btnNewButton.setFont(new Font("Bebas Neue", Font.PLAIN, 28));
 		btnNewButton.setBounds(233, 191, 107, 36);
+		btnNewButton.setBorder(emptyBorder);
+		btnNewButton.setFocusable(false);
 		btnNewButton.addActionListener(this);
 		panel.add(btnNewButton);
 		
@@ -409,12 +401,17 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 		btnNuevo.setFont(new Font("Bebas Neue", Font.PLAIN, 28));
 		btnNuevo.setBackground(new Color(0, 102, 255));
 		btnNuevo.setBounds(391, 191, 107, 36);
+		btnNuevo.setEnabled(false);
+		btnNuevo.setBorder(emptyBorder);
+		btnNuevo.setFocusable(false);
 		btnNuevo.addActionListener(this);
 		panel.add(btnNuevo);
 		
 		
 		setLocationRelativeTo(null);
-		contentPane.setLayout(gl_contentPane);
+		contentPane.setLayout(null);
+		contentPane.add(panel);
+		contentPane.add(datosCine);
 		setResizable(false);
 	}
 	
@@ -422,19 +419,60 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	
 		if(e.getSource() == btnSiguientePaso){
-		
-			SeleccionDescuento f = new SeleccionDescuento();
 			
-			f.setVisible(true);	
-			setVisible(false);
+			if(!textField.getText().toString().isEmpty()){
+				SeleccionDescuento f = new SeleccionDescuento();
+			
+				f.setVisible(true);	
+				
+				setVisible(false);
+				
+				/*Escribir en un fichero*/
+				File cargarFichero = new File("Control_de_salas.txt");
+				try {
+					FileWriter crearFichero = new FileWriter(cargarFichero, true);
+					PrintWriter escribir = new PrintWriter(crearFichero);
+					escribir.println(comboBox.getSelectedItem() + ", " + comboBox_1.getSelectedItem() + ", " + comboBox_2.getSelectedItem() + ", " + contador);
+					escribir.close();
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+			}
+			else{
+				setVisible(true);
+			}
 		}
 		if(e.getSource() == btnNewButton){
 			
+			if(comboBox.getSelectedItem() != null && comboBox_1.getSelectedItem() != null && comboBox_2.getSelectedItem() != null){
 				asientos = new JButton[fila][columna];
 				
 				for(int i = 0; i < asientos.length; i++){
 					for(int j = 0; j < asientos[i].length; j++){
 
+						if(ocupado == true){
+							//Creamos 5 botones con este icono
+							for(int h = 0; h < contador; h++){
+								butacaOcupada = new JButton();
+								//butacaOcupada = (JButton)e.getSource();
+								ImageIcon icono2 = new ImageIcon("./src/images/ocupado.png");
+								Image img2 = icono2.getImage();
+								Image otraimg2 = img2.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+								ImageIcon icon2 = new ImageIcon(otraimg2);
+							
+								butacaOcupada.setIcon(icon2);
+								butacaOcupada.setBorderPainted(false);
+								butacaOcupada.setContentAreaFilled(false);
+								butacaOcupada.setFocusable(false);
+								butacaOcupada.setRolloverEnabled(true);
+								asientosOcupados.add(butacaOcupada);
+								
+							}
+						}
 						butaca = new JButton();
 						
 						ImageIcon icono = new ImageIcon("./src/images/libre.png");
@@ -464,8 +502,13 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 				comboBox.setEnabled(false);
 				comboBox_1.setEnabled(false);
 				comboBox_2.setEnabled(false);
-				
+				btnNuevo.setEnabled(true);
+			}
+			else{
+				System.out.print("No se han seleccionado los combobox. No hay datos");
+			}
 		}
+		//A los botones sobre los que se haga clic cambiaran de icono(selccionado)
 		for(int i = 0; i < posicion; i++){
 			
 			if(e.getActionCommand().equals(i+"boton")){
@@ -487,7 +530,7 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 				
 				textField.setText(String.valueOf(contador));
 				//asientosOcupados = new JButton[][];
-				
+				ocupado = true;
 				
 			}
 			
@@ -511,6 +554,7 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 			misButacas.revalidate();
 			
 			btnNewButton.setEnabled(true);
+			btnNuevo.setEnabled(false);
 		
 		}
 		

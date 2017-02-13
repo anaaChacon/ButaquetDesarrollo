@@ -41,8 +41,22 @@ public class SecondActivity {
 		Session session = sesion.openSession();
 		session.beginTransaction();
 		
-		//Hacer una consulta
+		//Hacer una consulta//MODIFICAR 
 		Iterator<?> iter = session.createQuery("from Peliculas").iterate();
+		
+		/*Iterator<?> iter = session.createQuery("select p.nombrePelicula"
+				+ " from Peliculas p, Proyeccion pr, Salas s"
+				+ " where p.idPelicula = pr.peliculas"
+				+ " and pr.salas = s.idSala"
+				+ " and s.idSala = (select sa.idSala"
+				+ " from Salas sa, Cines c"
+				+ " where sa.cines = c.idCine"
+				+ " and c.idCine = (select idCine"
+				+ " from Cines"
+				+ " where nombre = '"+nombreCine+"'))").iterate();*/
+		
+		
+		
 		
 		ArrayList<String>listaPeliculas = new ArrayList<>();
 		

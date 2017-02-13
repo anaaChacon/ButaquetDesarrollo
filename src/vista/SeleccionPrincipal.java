@@ -55,8 +55,7 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 	private JButton [][] asientos, asientosOcupados;
 	private int fila, columna;
 	private JPanel misButacas;
-	@SuppressWarnings("unused")
-	private boolean seleccionado = false;
+	
 	
 	private int posicion, contador;
 	Border emptyBorder = BorderFactory.createEmptyBorder();
@@ -217,6 +216,7 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 						}
 						
 						int itemCount = comboBox_1.getItemCount();
+						int itemCount2 = comboBox_2.getItemCount();
 
 						   if(itemCount > 1){
 							   comboBox_1.setEnabled(true);
@@ -231,8 +231,17 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 						   }
 						   else{
 							   comboBox_1.setEnabled(false);
-							   comboBox_2.setSelectedItem(null);
-						   
+							   
+							   if(itemCount2 > 1){
+								   comboBox_2.setEnabled(true);
+								   comboBox_2.setSelectedItem(null);
+ 
+							   }else{
+								   comboBox_2.setSelectedItem(0);
+								   comboBox_2.setEnabled(false);
+									
+							   }
+							  
 						   }	
 			 }	   
 			}
@@ -278,6 +287,7 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 								   comboBox_2.setSelectedItem(null);
  
 							   }else{
+								   comboBox_2.setSelectedItem(0);
 								   comboBox_2.setEnabled(false);
 									
 							   }
@@ -474,8 +484,9 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 				butaca2.setRolloverEnabled(true);
 				//Hacemos que el botón seleccionado no pueda volver a ser pulsaldo
 				butaca2.removeActionListener(this);
-				seleccionado = true;
+				
 				textField.setText(String.valueOf(contador));
+				//asientosOcupados = new JButton[][];
 				
 				
 			}
@@ -497,8 +508,6 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 			comboBox_1.removeAllItems();
 			comboBox_2.removeAllItems();
 			comboBox.setEnabled(true);
-			//comboBox_1.setEnabled(false);
-			//comboBox_2.setEnabled(false);
 			misButacas.revalidate();
 			
 			btnNewButton.setEnabled(true);

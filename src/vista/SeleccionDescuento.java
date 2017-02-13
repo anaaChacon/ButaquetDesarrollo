@@ -29,6 +29,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.UIManager;
@@ -99,10 +100,23 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 		lblDescuentoPensionista.setBounds(0, 255, 244, 39);
 		panel_1.add(lblDescuentoPensionista);
 		
-		JComboBox comboBox = new JComboBox();
+		JComboBox<Integer> comboBox = new JComboBox<>();
 		comboBox.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		comboBox.setBackground(Color.WHITE);
 		comboBox.setBounds(254, 105, 101, 36);
+		
+		/****************************************************************/
+		ArrayList<Integer>listaButacasSeleccionadas = new ArrayList<>();
+		int numButacas = Integer.parseInt(SeleccionPrincipal.textField.getText().toString());
+		for(int i = 0; i < numButacas + 1; i++){
+			listaButacasSeleccionadas.add(i);
+		}
+		
+		for(int i = 0; i < listaButacasSeleccionadas.size(); i++){
+			comboBox.addItem(listaButacasSeleccionadas.get(i));
+		}
+		/****************************************************************/
+		comboBox.setSelectedItem(null);
 		panel_1.add(comboBox);
 		
 		JComboBox comboBox_1 = new JComboBox();

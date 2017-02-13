@@ -27,6 +27,8 @@ import javax.swing.ImageIcon;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,6 +41,8 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 	private JPanel contentPane;
 	private JTextField textField;
 	private JButton button, btnPasoAtrs;
+	private JComboBox<Integer> comboBox_1, comboBox_2;
+	private int cantidadSiguiente;
 	Border emptyBorder = BorderFactory.createEmptyBorder();
 
 
@@ -117,15 +121,61 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 		}
 		/****************************************************************/
 		comboBox.setSelectedItem(null);
+		comboBox.addItemListener(new ItemListener(){
+			public void itemStateChanged(ItemEvent e){
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+				
+					int cantidadSeleccionada = Integer.parseInt(comboBox.getSelectedItem().toString());
+					
+					cantidadSiguiente = numButacas - cantidadSeleccionada;
+					
+					ArrayList<Integer>listaDescuento = new ArrayList<>();
+					
+					for(int i = 0; i < cantidadSiguiente+1; i++){
+						listaDescuento.add(i);
+					}
+					
+					for(int i = 0; i < listaDescuento.size(); i++){
+						comboBox_1.addItem(listaDescuento.get(i));
+					}
+					
+					
+				}	
+			}		
+		});
+		
 		panel_1.add(comboBox);
 		
-		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1 = new JComboBox<>();
 		comboBox_1.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		comboBox_1.setBackground(Color.WHITE);
 		comboBox_1.setBounds(254, 179, 101, 36);
+		comboBox_1.setSelectedItem(null);
+		comboBox_1.addItemListener(new ItemListener(){
+			public void itemStateChanged(ItemEvent e){
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+				
+					int cantidadSeleccionada = Integer.parseInt(comboBox_1.getSelectedItem().toString());
+					
+					int cantidadSiguiente2 = cantidadSiguiente - cantidadSeleccionada;
+					
+					ArrayList<Integer>listaDescuento = new ArrayList<>();
+					
+					for(int i = 0; i < cantidadSiguiente2+1; i++){
+						listaDescuento.add(i);
+					}
+					
+					for(int i = 0; i < listaDescuento.size(); i++){
+						comboBox_2.addItem(listaDescuento.get(i));
+					}
+					
+					
+				}	
+			}		
+		});
 		panel_1.add(comboBox_1);
 		
-		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2 = new JComboBox<>();
 		comboBox_2.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		comboBox_2.setBackground(Color.WHITE);
 		comboBox_2.setBounds(254, 255, 101, 36);

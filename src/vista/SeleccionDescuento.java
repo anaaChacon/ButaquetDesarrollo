@@ -36,13 +36,19 @@ import java.util.Date;
 
 import javax.swing.UIManager;
 
-public class SeleccionDescuento extends JFrame implements ActionListener{
+public class SeleccionDescuento extends JFrame implements ActionListener, ItemListener{
 
 	private JPanel contentPane;
 	private JTextField textField;
 	private JButton button, btnPasoAtrs;
+
 	private JComboBox<Integer> comboBox_1, comboBox_2;
 	private int cantidadSiguiente;
+	public static JLabel label_9;
+
+	private int descontar;
+	
+
 	Border emptyBorder = BorderFactory.createEmptyBorder();
 
 
@@ -71,15 +77,22 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new EmptyBorder(0, 0, 0, 0));
-		panel.setBackground(Color.GRAY);
-		contentPane.add(panel, BorderLayout.NORTH);
+		
+		
+		/*JLabel label_9 = new JLabel("Arag\u00F3 Cinema");
+		label_9.setForeground(Color.WHITE);
+		label_9.setFont(new Font("Bebas Neue", Font.PLAIN, 63));*/
+		/*Poner la fecha actual*/
+		Date date = new Date();
+		//Caso 1: obtenerhora y fecha y salida por pantalla con formato:
+		DateFormat hourdateFormat = new SimpleDateFormat("EEEEEEEEE dd/MM/yyyy  HH:mm");
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(0, 141, 1274, 550);
+		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		panel_1.setBackground(Color.GRAY);
 		
@@ -110,38 +123,37 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 		comboBox.setBounds(254, 105, 101, 36);
 		
 		/****************************************************************/
-		ArrayList<Integer>listaButacasSeleccionadas = new ArrayList<>();
+		//ArrayList<Integer>listaButacasSeleccionadas = new ArrayList<>();
 		int numButacas = Integer.parseInt(SeleccionPrincipal.textField.getText().toString());
 		for(int i = 0; i < numButacas + 1; i++){
-			listaButacasSeleccionadas.add(i);
+			//listaButacasSeleccionadas.add(i);
+			comboBox.addItem(i);
 		}
-		
-		for(int i = 0; i < listaButacasSeleccionadas.size(); i++){
-			comboBox.addItem(listaButacasSeleccionadas.get(i));
-		}
-		/****************************************************************/
 		comboBox.setSelectedItem(null);
+		
+		/*for(int i = 0; i < listaButacasSeleccionadas.size(); i++){
+			comboBox.addItem(listaButacasSeleccionadas.get(i));
+		}*/
+		/****************************************************************/
+
+		comboBox.setSelectedItem(null);
+		
+
 		comboBox.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent e){
-				if (e.getStateChange() == ItemEvent.SELECTED) {
-				
-					int cantidadSeleccionada = Integer.parseInt(comboBox.getSelectedItem().toString());
-					
-					cantidadSiguiente = numButacas - cantidadSeleccionada;
-					
-					ArrayList<Integer>listaDescuento = new ArrayList<>();
-					
-					for(int i = 0; i < cantidadSiguiente+1; i++){
-						listaDescuento.add(i);
-					}
-					
-					for(int i = 0; i < listaDescuento.size(); i++){
-						comboBox_1.addItem(listaDescuento.get(i));
-					}
-					
-					
-				}	
-			}		
+				 if (e.getStateChange() == ItemEvent.SELECTED) {
+				 	
+					 int numDescSelec = Integer.parseInt(comboBox.getSelectedItem().toString());
+					 comboBox_1.removeAllItems();
+					 descontar = numButacas - numDescSelec;
+					 for(int i = 0; i < descontar + 1; i++){
+						 comboBox_1.addItem(i);
+					 }
+					 comboBox_1.setSelectedItem(null);
+					 comboBox_2.removeAllItems();
+				 }
+			}
+
 		});
 		
 		panel_1.add(comboBox);
@@ -150,6 +162,7 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 		comboBox_1.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		comboBox_1.setBackground(Color.WHITE);
 		comboBox_1.setBounds(254, 179, 101, 36);
+
 		comboBox_1.setSelectedItem(null);
 		comboBox_1.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent e){
@@ -173,12 +186,30 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 				}	
 			}		
 		});
+
+		
+		comboBox_1.addItemListener(new ItemListener(){
+			public void itemStateChanged(ItemEvent e){
+				 if (e.getStateChange() == ItemEvent.SELECTED) {
+				 	comboBox_2.removeAllItems();
+					 int numDescSelec = Integer.parseInt(comboBox_1.getSelectedItem().toString());
+					 int descontar2 = descontar - numDescSelec;
+					 for(int i = 0; i < descontar2 + 1; i++){
+						 comboBox_2.addItem(i);
+					 }
+					 comboBox_2.setSelectedItem(null);
+				 }
+			}
+		});
+		
+
 		panel_1.add(comboBox_1);
 		
 		comboBox_2 = new JComboBox<>();
 		comboBox_2.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		comboBox_2.setBackground(Color.WHITE);
 		comboBox_2.setBounds(254, 255, 101, 36);
+		
 		panel_1.add(comboBox_2);
 		
 		JLabel label_3 = new JLabel("N\u00BA de Butacas Selec.");
@@ -214,86 +245,6 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 		lblSubtotal.setFont(new Font("Bebas Neue", Font.PLAIN, 53));
 		lblSubtotal.setBounds(650, 1, 548, 77);
 		panel_1.add(lblSubtotal);
-		
-		JPanel panel_2 = new JPanel();
-		panel_2.setPreferredSize(new Dimension(1280, 140));
-		panel_2.setBackground(Color.DARK_GRAY);
-		
-		JLabel label_8 = new JLabel("");
-		label_8.setIcon(new ImageIcon("./src/images/ticketpeque.png"));
-		
-		JLabel label_9 = new JLabel(SecondActivity.nombreCine(Integer.parseInt(Login.usuarioInt.getText().toString())));
-		label_9.setForeground(Color.WHITE);
-		label_9.setFont(new Font("Bebas Neue", Font.PLAIN, 63));
-		
-		/*JLabel label_9 = new JLabel("Arag\u00F3 Cinema");
-		label_9.setForeground(Color.WHITE);
-		label_9.setFont(new Font("Bebas Neue", Font.PLAIN, 63));*/
-		/*Poner la fecha actual*/
-		Date date = new Date();
-		//Caso 1: obtenerhora y fecha y salida por pantalla con formato:
-		DateFormat hourdateFormat = new SimpleDateFormat("EEEEEEEEE dd/MM/yyyy  HH:mm");
-
-        JLabel label_10 = new JLabel(hourdateFormat.format(date).toString());
-        
-		//JLabel label_10 = new JLabel("LUNES 16/01/2017 15:30");
-		label_10.setForeground(Color.LIGHT_GRAY);
-		label_10.setFont(new Font("Bebas Neue", Font.PLAIN, 25));
-		
-		JLabel label_11 = new JLabel("USUARIO: " + Login.usuarioInt.getText().toString());
-		label_11.setForeground(Color.LIGHT_GRAY);
-		label_11.setFont(new Font("Bebas Neue", Font.PLAIN, 24));
-		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
-		gl_panel_2.setHorizontalGroup(
-			gl_panel_2.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_2.createSequentialGroup()
-					.addGap(41)
-					.addComponent(label_8)
-					.addGap(18)
-					.addComponent(label_9)
-					.addPreferredGap(ComponentPlacement.RELATED, 719, Short.MAX_VALUE)
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-						.addComponent(label_11)
-						.addComponent(label_10))
-					.addGap(23))
-		);
-		gl_panel_2.setVerticalGroup(
-			gl_panel_2.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_2.createSequentialGroup()
-					.addContainerGap(119, Short.MAX_VALUE)
-					.addComponent(label_8)
-					.addGap(21))
-				.addGroup(gl_panel_2.createSequentialGroup()
-					.addGap(36)
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-						.addComponent(label_9)
-						.addGroup(gl_panel_2.createSequentialGroup()
-							.addGap(2)
-							.addComponent(label_11)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(label_10, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(40, Short.MAX_VALUE))
-		);
-		panel_2.setLayout(gl_panel_2);
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 1264, Short.MAX_VALUE)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 1268, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 1259, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 681, Short.MAX_VALUE)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
 		
 		btnPasoAtrs = new JButton("Paso Anterior");
 		btnPasoAtrs.setForeground(Color.WHITE);
@@ -376,25 +327,95 @@ public class SeleccionDescuento extends JFrame implements ActionListener{
 		label.setFont(new Font("Bebas Neue", Font.PLAIN, 48));
 		label.setBounds(927, 286, 244, 39);
 		panel_1.add(label);
-		panel.setLayout(gl_panel);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(0, 0, 1274, 140);
+		contentPane.add(panel_2);
+		panel_2.setPreferredSize(new Dimension(1280, 140));
+		panel_2.setBackground(Color.DARK_GRAY);
+		
+		JLabel label_8 = new JLabel("");
+		label_8.setIcon(new ImageIcon("./src/images/ticketpeque.png"));
+		
+		label_9 = new JLabel(SecondActivity.nombreCine(Integer.parseInt(Login.usuarioInt.getText().toString())));
+		label_9.setForeground(Color.WHITE);
+		label_9.setFont(new Font("Bebas Neue", Font.PLAIN, 63));
+		
+		        JLabel label_10 = new JLabel(hourdateFormat.format(date).toString());
+		        
+		//JLabel label_10 = new JLabel("LUNES 16/01/2017 15:30");
+		label_10.setForeground(Color.LIGHT_GRAY);
+		label_10.setFont(new Font("Bebas Neue", Font.PLAIN, 25));
+		
+		JLabel label_11 = new JLabel("USUARIO: " + Login.usuarioInt.getText().toString());
+		label_11.setForeground(Color.LIGHT_GRAY);
+		label_11.setFont(new Font("Bebas Neue", Font.PLAIN, 24));
+		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
+		gl_panel_2.setHorizontalGroup(
+			gl_panel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addGap(41)
+					.addComponent(label_8)
+					.addGap(18)
+					.addComponent(label_9)
+					.addPreferredGap(ComponentPlacement.RELATED, 719, Short.MAX_VALUE)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+						.addComponent(label_11)
+						.addComponent(label_10))
+					.addGap(23))
+		);
+		gl_panel_2.setVerticalGroup(
+			gl_panel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addContainerGap(119, Short.MAX_VALUE)
+					.addComponent(label_8)
+					.addGap(21))
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addGap(36)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+						.addComponent(label_9)
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addGap(2)
+							.addComponent(label_11)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(label_10, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(40, Short.MAX_VALUE))
+		);
+		panel_2.setLayout(gl_panel_2);
 		
 		setLocationRelativeTo(null);
 		setResizable(false);
+		
 	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == button){
 			SeleccionPago f = new SeleccionPago();
 			
-			f.setVisible(true);	
+			f.setVisible(true);
 			setVisible(false);
+			
 		}
 		
 		if(e.getSource() == btnPasoAtrs){
+			
 			SeleccionPrincipal f = new SeleccionPrincipal();
+			
+			
 			f.setVisible(true);
 			setVisible(false);
 		}
 	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
+
+
+	
+

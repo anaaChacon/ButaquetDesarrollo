@@ -47,12 +47,17 @@ import java.awt.event.ActionListener;
 
 public class SeleccionPago extends JFrame implements ItemListener, ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JButton btnPagar, btnImprimir;
-	//private static JProgressBar progressBar = new JProgressBar(0,100);
+	private static JButton btnPagar, btnImprimir, btnSiguiente;
+	// private static JProgressBar progressBar = new JProgressBar(0,100);
 	private static JProgressBar pbProgress;
 	private static JDialog dlgProgress;
 	
+
 	Border emptyBorder = BorderFactory.createEmptyBorder();
 
 	/**
@@ -70,7 +75,6 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 			}
 		});
 	}
-	
 
 	/**
 	 * Create the frame.
@@ -81,15 +85,64 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 
-		JPanel panel = new JPanel();
-		panel.setBorder(new EmptyBorder(0, 0, 0, 0));
-		panel.setBackground(Color.GRAY);
-		contentPane.add(panel, BorderLayout.NORTH);
+		/*
+		 * JLabel label_16 = new JLabel("Arag\u00F3 Cinema");
+		 * label_16.setForeground(Color.WHITE); label_16.setFont(new Font(
+		 * "Bebas Neue", Font.PLAIN, 63));
+		 */
+		/* Poner la fecha actual */
+		Date date = new Date();
+		// Caso 1: obtenerhora y fecha y salida por pantalla con formato:
+		DateFormat hourdateFormat = new SimpleDateFormat("EEEEEEEEE dd/MM/yyyy  HH:mm");
+		contentPane.setLayout(null);
+
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(0, 0, 1274, 140);
+		contentPane.add(panel_2);
+		panel_2.setPreferredSize(new Dimension(1280, 140));
+		panel_2.setBackground(Color.DARK_GRAY);
+
+		JLabel label_15 = new JLabel("");
+		label_15.setIcon(new ImageIcon("./src/images/ticketpeque.png"));
+
+		JLabel label_16 = new JLabel(
+				SecondActivity.nombreCine(Integer.parseInt(Login.usuarioInt.getText().toString())));
+		label_16.setForeground(Color.WHITE);
+		label_16.setFont(new Font("Bebas Neue", Font.PLAIN, 63));
+		JLabel label_17 = new JLabel(hourdateFormat.format(date).toString());
+		// JLabel label_17 = new JLabel("LUNES 16/01/2017 15:30");
+		label_17.setForeground(Color.LIGHT_GRAY);
+		label_17.setFont(new Font("Bebas Neue", Font.PLAIN, 25));
+
+		JLabel label_18 = new JLabel("USUARIO: " + Login.usuarioInt.getText().toString());
+		label_18.setForeground(Color.LIGHT_GRAY);
+		label_18.setFont(new Font("Bebas Neue", Font.PLAIN, 24));
+		
+		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
+		gl_panel_2.setHorizontalGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_2.createSequentialGroup().addGap(41).addComponent(label_15).addGap(18)
+						.addComponent(label_16)
+						.addPreferredGap(ComponentPlacement.RELATED, 741, Short.MAX_VALUE).addGroup(gl_panel_2
+								.createParallelGroup(Alignment.LEADING).addComponent(label_18).addComponent(label_17))
+						.addGap(23)));
+		
+		gl_panel_2.setVerticalGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_2.createSequentialGroup().addContainerGap(119, Short.MAX_VALUE)
+						.addComponent(label_15).addGap(21))
+				.addGroup(gl_panel_2.createSequentialGroup().addGap(36)
+						.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING).addComponent(label_16)
+								.addGroup(gl_panel_2.createSequentialGroup().addGap(2).addComponent(label_18)
+										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(label_17,
+												GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)))
+						.addContainerGap(40, Short.MAX_VALUE)));
+		
+		panel_2.setLayout(gl_panel_2);
 
 		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(0, 141, 1274, 550);
+		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		panel_1.setBackground(Color.GRAY);
 
@@ -139,7 +192,6 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 		btnImprimir.setFocusable(false);
 		btnImprimir.addActionListener(this);
 		panel_1.add(btnImprimir);
-		
 
 		JLabel label_4 = new JLabel("SUBTOTAL");
 		label_4.setHorizontalAlignment(SwingConstants.CENTER);
@@ -231,80 +283,6 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 		label_14.setBounds(927, 286, 244, 39);
 		panel_1.add(label_14);
 
-		JPanel panel_2 = new JPanel();
-		panel_2.setPreferredSize(new Dimension(1280, 140));
-		panel_2.setBackground(Color.DARK_GRAY);
-
-		JLabel label_15 = new JLabel("");
-		label_15.setIcon(new ImageIcon("./src/images/ticketpeque.png"));
-
-		JLabel label_16 = new JLabel(SecondActivity.nombreCine(Integer.parseInt(Login.usuarioInt.getText().toString())));
-		label_16.setForeground(Color.WHITE);
-		label_16.setFont(new Font("Bebas Neue", Font.PLAIN, 63));
-		
-		
-		/*JLabel label_16 = new JLabel("Arag\u00F3 Cinema");
-		label_16.setForeground(Color.WHITE);
-		label_16.setFont(new Font("Bebas Neue", Font.PLAIN, 63));*/
-		/*Poner la fecha actual*/
-		Date date = new Date();
-		//Caso 1: obtenerhora y fecha y salida por pantalla con formato:
-		DateFormat hourdateFormat = new SimpleDateFormat("EEEEEEEEE dd/MM/yyyy  HH:mm");
-        JLabel label_17 = new JLabel(hourdateFormat.format(date).toString());
-	//	JLabel label_17 = new JLabel("LUNES 16/01/2017 15:30");
-		label_17.setForeground(Color.LIGHT_GRAY);
-		label_17.setFont(new Font("Bebas Neue", Font.PLAIN, 25));
-
-		JLabel label_18 = new JLabel("USUARIO: " + Login.usuarioInt.getText().toString());
-		label_18.setForeground(Color.LIGHT_GRAY);
-		label_18.setFont(new Font("Bebas Neue", Font.PLAIN, 24));
-		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
-		gl_panel_2.setHorizontalGroup(
-			gl_panel_2.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_2.createSequentialGroup()
-					.addGap(41)
-					.addComponent(label_15)
-					.addGap(18)
-					.addComponent(label_16)
-					.addPreferredGap(ComponentPlacement.RELATED, 741, Short.MAX_VALUE)
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-						.addComponent(label_18)
-						.addComponent(label_17))
-					.addGap(23))
-		);
-		gl_panel_2.setVerticalGroup(
-			gl_panel_2.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_2.createSequentialGroup()
-					.addContainerGap(119, Short.MAX_VALUE)
-					.addComponent(label_15)
-					.addGap(21))
-				.addGroup(gl_panel_2.createSequentialGroup()
-					.addGap(36)
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-						.addComponent(label_16)
-						.addGroup(gl_panel_2.createSequentialGroup()
-							.addGap(2)
-							.addComponent(label_18)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(label_17, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(40, Short.MAX_VALUE))
-		);
-		panel_2.setLayout(gl_panel_2);
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(panel_2, Alignment.LEADING, 0, 0, Short.MAX_VALUE).addComponent(panel_1,
-										Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1268, Short.MAX_VALUE))
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-						.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap()));
-
 		JComboBox comboTarjeta = new JComboBox();
 		comboTarjeta.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		comboTarjeta.setBackground(Color.WHITE);
@@ -313,7 +291,7 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 		comboTarjeta.addItem("No");
 		comboTarjeta.setSelectedIndex(1);
 		comboTarjeta.addItemListener(this);
-		
+
 		JComboBox comboEfectivo = new JComboBox();
 		comboEfectivo.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		comboEfectivo.setBackground(Color.WHITE);
@@ -324,7 +302,6 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 		comboEfectivo.addItemListener(this);
 		panel_1.add(comboEfectivo);
 		panel_1.add(comboTarjeta);
-		
 
 		JComboBox comboGratuito = new JComboBox();
 		comboGratuito.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
@@ -334,36 +311,38 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 		comboGratuito.addItem("No");
 		comboGratuito.setSelectedIndex(1);
 		comboGratuito.addItemListener(this);
-		
-				JComboBox comboCheque = new JComboBox();
-				comboCheque.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
-				comboCheque.setBackground(Color.WHITE);
-				comboCheque.setBounds(254, 156, 101, 36);
-				comboCheque.addItem("Si");
-				comboCheque.addItem("No");
-				comboCheque.setSelectedIndex(1);
-				comboCheque.addItemListener(this);
-				panel_1.add(comboCheque);
-		
-				JComboBox comboCupon = new JComboBox();
-				comboCupon.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
-				comboCupon.setBackground(Color.WHITE);
-				comboCupon.setBounds(254, 214, 101, 36);
-				comboCupon.addItem("Si");
-				comboCupon.addItem("No");
-				comboCupon.setSelectedIndex(1);
-				comboCupon.addItemListener(this);
-				panel_1.add(comboCupon);
+
+		JComboBox comboCheque = new JComboBox();
+		comboCheque.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
+		comboCheque.setBackground(Color.WHITE);
+		comboCheque.setBounds(254, 156, 101, 36);
+		comboCheque.addItem("Si");
+		comboCheque.addItem("No");
+		comboCheque.setSelectedIndex(1);
+		comboCheque.addItemListener(this);
+		panel_1.add(comboCheque);
+
+		JComboBox comboCupon = new JComboBox();
+		comboCupon.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
+		comboCupon.setBackground(Color.WHITE);
+		comboCupon.setBounds(254, 214, 101, 36);
+		comboCupon.addItem("Si");
+		comboCupon.addItem("No");
+		comboCupon.setSelectedIndex(1);
+		comboCupon.addItemListener(this);
+		panel_1.add(comboCupon);
 		panel_1.add(comboGratuito);
 		
-		
-		/*progressBar.setBounds(414, 153, 229, 40);
-		progressBar.setStringPainted(true);
-		progressBar.setVisible(false);
-		panel_1.add(progressBar);*/
-		
-		panel.setLayout(gl_panel);
-
+		btnSiguiente = new JButton("SIGUIENTE");
+		btnSiguiente.setEnabled(false);
+		btnSiguiente.setForeground(Color.WHITE);
+		btnSiguiente.setFont(new Font("Bebas Neue", Font.PLAIN, 46));
+		btnSiguiente.setFocusable(false);
+		btnSiguiente.setBorder(emptyBorder);
+		btnSiguiente.setBackground(new Color(0, 102, 255));
+		btnSiguiente.setBounds(871, 382, 284, 56);
+		btnSiguiente.addActionListener(this);
+		panel_1.add(btnSiguiente);
 		setLocationRelativeTo(null);
 		setResizable(false);
 
@@ -401,7 +380,7 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 			pbProgress.setStringPainted(true);
 			pbProgress.setVisible(false);
 
-			dlgProgress.add(pbProgress);
+			dlgProgress.getContentPane().add(pbProgress);
 			// prevent the user from closing the dialog
 			dlgProgress.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); 
 			dlgProgress.setSize(400, 80);
@@ -417,6 +396,14 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 
 			dlgProgress.setVisible(true);
 			
+			
+		}
+		
+		if(e.getSource() == btnSiguiente){
+		
+			FinOperacion fin = new FinOperacion();
+			setVisible(false);
+			fin.setVisible(true);
 		}
 
 	}
@@ -436,17 +423,19 @@ public class SeleccionPago extends JFrame implements ItemListener, ActionListene
 	           } catch (InterruptedException e){}
 	           
 	        if(pbProgress.getValue() == 100){
+	        
 	        	dlgProgress.dispose();
+	        	btnSiguiente.setEnabled(true);
+	        	btnImprimir.setEnabled(false);
 	        }
 	    	}
 	        
 	    }
 	    }
-
-
 	@Override
-	public void itemStateChanged(ItemEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void itemStateChanged(ItemEvent e) {
+	// TODO Auto-generated method stub
+	
 	}
+
 }

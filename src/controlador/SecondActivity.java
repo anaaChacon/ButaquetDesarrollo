@@ -10,6 +10,7 @@ import models.Peliculas;
 import models.Proyeccion;
 import models.Salas;
 import models.SessionFactoryUtil;
+import vista.SeleccionDescuento;
 
 public class SecondActivity {
 	
@@ -41,14 +42,29 @@ public class SecondActivity {
 		Session session = sesion.openSession();
 		session.beginTransaction();
 		
-		//Hacer una consulta
-		Iterator<?> iter = session.createQuery("from Peliculas").iterate();
+		//Hacer una consulta//MODIFICAR 
+		//Iterator<?> iter = session.createQuery("").iterate();
+		
+		Iterator<?> iter = session.createQuery("select p.nombrePelicula"
+				+ " from Peliculas p, Proyeccion pr, Salas s"
+				+ " where p.idPelicula = pr.peliculas"
+				+ " and pr.salas = s.idSala"
+				+ " and s.idSala in (select sa.idSala"
+				+ " from Salas sa, Cines c"
+				+ " where sa.cines = c.idCine"
+				+ " and c.idCine = (select idCine"
+				+ " from Cines"
+				+ " where nombre = 'Aragó Cinema')) group by p.nombrePelicula").iterate();
+		
+		
+		
 		
 		ArrayList<String>listaPeliculas = new ArrayList<>();
 		
 		while(iter.hasNext()){
-			Peliculas pelicula = (Peliculas) iter.next();
-			listaPeliculas.add(pelicula.getNombrePelicula());
+			//Peliculas pelicula = (Peliculas) iter.next();
+			//listaPeliculas.add(pelicula.getNombrePelicula());
+			listaPeliculas.add(String.valueOf(iter.next()));
 		}
 		
 		//Realize to transaction
@@ -116,11 +132,18 @@ public class SecondActivity {
 				+ " from Salas where numSala = '"+numSala+"')"
 				+ " group by p.salas").iterate();*/
 		
-		Iterator<?> iter = session.createQuery("select s.filas from Salas s, Proyeccion p where s.idSala = p.salas and p.salas = (select idSala from Salas where numSala = '"+numSala+"') group by p.salas").iterate();
+		/*Iterator<?> iter = session.createQuery("select s.filas from Salas s, Proyeccion p where s.idSala = p.salas and p.salas = (select idSala from Salas where numSala = '"+numSala+"') group by p.salas").iterate();
 		Iterator<?> iter2 = session.createQuery("select s.columnas from Salas s, Proyeccion p where s.idSala = p.salas and p.salas = (select idSala from Salas where numSala = '"+numSala+"') group by p.salas").iterate();
+		*/
 		
+		Iterator<?>iter= session.createQuery("select s.filas from Salas s, Proyeccion p where s.idSala=p.salas and p.salas=(select sa.idSala from Salas sa where sa.numSala=4 and sa.cines=(select cin.idCine from Cines cin where cin.nombre='Aragó Cinema'))").iterate();
+		Iterator<?>iter2= session.createQuery("select s.columnas from Salas s, Proyeccion p where s.idSala=p.salas and p.salas=(select sa.idSala from Salas sa where sa.numSala=4 and sa.cines=(select cin.idCine from Cines cin where cin.nombre='Aragó Cinema'))").iterate();
+
 		ArrayList<Integer>filas1 = new ArrayList<>();
+		
+		
 		while(iter.hasNext()){
+			
 			filas1.add(Integer.parseInt(iter.next().toString()));
 		}
 		
@@ -169,8 +192,8 @@ public class SecondActivity {
 		
 		//Hacer una consulta
 		//Iterator<?> iter2 = session.createQuery("select p.hora, p.fecha from Proyeccion p, Peliculas pe where p.peliculas = pe.idPelicula and pe.nombrePelicula = '"+pelicula+"' GROUP BY p.hora").iterate();
-		Iterator<?> iter = session.createQuery("select p.fecha from Proyeccion p, Peliculas pe where p.peliculas = pe.idPelicula and pe.nombrePelicula = '"+pelicula+"' GROUP BY p.hora").iterate();
-		Iterator<?> iter2 = session.createQuery("select p.hora from Proyeccion p, Peliculas pe where p.peliculas = pe.idPelicula and pe.nombrePelicula = '"+pelicula+"' GROUP BY p.hora").iterate();
+		Iterator<?> iter = session.createQuery("select p.fecha from Proyeccion p, Peliculas pe where p.peliculas = pe.idPelicula and pe.nombrePelicula = '"+pelicula+"'").iterate();
+		Iterator<?> iter2 = session.createQuery("select p.hora from Proyeccion p, Peliculas pe where p.peliculas = pe.idPelicula and pe.nombrePelicula = '"+pelicula+"'").iterate();
 		
 		ArrayList<String>listaFecha = new ArrayList<>();
 		while(iter.hasNext()){

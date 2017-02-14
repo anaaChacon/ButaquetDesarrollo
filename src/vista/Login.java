@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import javax.swing.JTextField;
@@ -54,6 +56,7 @@ public class Login extends JFrame implements  ActionListener {
 	 * Create the frame.
 	 */
 	public Login() {
+		super("BUTAQUET");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1280, 720);
 		contentPane = new JPanel();
@@ -112,6 +115,10 @@ public class Login extends JFrame implements  ActionListener {
 		passwordField.setBounds(609, 358, 198, 41);
 		contentPane.add(passwordField);
 		
+		ImageIcon logoV = new ImageIcon("./src/images/icotiket.png");
+		Image logo = logoV.getImage();
+		
+		setIconImage(logo);
 		setLocationRelativeTo(null);
 		setResizable(false);
 	}

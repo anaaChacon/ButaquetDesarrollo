@@ -59,7 +59,7 @@ public class FinOperacion extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	public FinOperacion() {
-		
+		super("BUTAQUET");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1280, 720);
 		contentPane = new JPanel();
@@ -177,6 +177,10 @@ public class FinOperacion extends JFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		if(e.getSource() == btnNuevaOperacin){
 			
+			SeleccionDescuento.variableDescuentos = 0.0;
+			SeleccionDescuento.precioConDescuento = 0.0;
+			SeleccionDescuento.precioConIva = 0.0;
+			SeleccionDescuento.importeTotal = 0.0;
 			setVisible(false);
 			SeleccionPrincipal f = new SeleccionPrincipal();
 			f.setVisible(true);

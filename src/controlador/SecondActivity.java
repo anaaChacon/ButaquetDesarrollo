@@ -87,7 +87,7 @@ public class SecondActivity {
 				+ " and pe.nombrePelicula = '"+pelicula+"'"
 				+ " and s.idSala = p.salas"
 						+ " and p.fecha = '"+fecha+"'"
-								+ " and p.hora = '"+hora+"' GROUP BY p.salas").iterate();
+								+ " and p.hora = '"+hora+"' GROUP BY s.numSala").iterate();
 		
 		ArrayList<String>listaSalas = new ArrayList<>();
 		
@@ -117,7 +117,7 @@ public class SecondActivity {
 		return iter;
 	}
 	
-	public static ArrayList<Integer> dimensionSala(int numSala){
+	public static ArrayList<Integer> dimensionSala(int numSala, String nombreCine){
 		//Instance of class SessionFactory
 		SessionFactory sesion = SessionFactoryUtil.getSessionFactory();
 		Session session = sesion.openSession();
@@ -136,8 +136,8 @@ public class SecondActivity {
 		Iterator<?> iter2 = session.createQuery("select s.columnas from Salas s, Proyeccion p where s.idSala = p.salas and p.salas = (select idSala from Salas where numSala = '"+numSala+"') group by p.salas").iterate();
 		*/
 		
-		Iterator<?>iter= session.createQuery("select s.filas from Salas s, Proyeccion p where s.idSala=p.salas and p.salas=(select sa.idSala from Salas sa where sa.numSala=4 and sa.cines=(select cin.idCine from Cines cin where cin.nombre='Aragó Cinema'))").iterate();
-		Iterator<?>iter2= session.createQuery("select s.columnas from Salas s, Proyeccion p where s.idSala=p.salas and p.salas=(select sa.idSala from Salas sa where sa.numSala=4 and sa.cines=(select cin.idCine from Cines cin where cin.nombre='Aragó Cinema'))").iterate();
+		Iterator<?>iter= session.createQuery("select s.filas from Salas s, Proyeccion p where s.idSala=p.salas and p.salas=(select sa.idSala from Salas sa where sa.numSala='"+numSala+"' and sa.cines=(select cin.idCine from Cines cin where cin.nombre='"+nombreCine+"'))").iterate();
+		Iterator<?>iter2= session.createQuery("select s.columnas from Salas s, Proyeccion p where s.idSala=p.salas and p.salas=(select sa.idSala from Salas sa where sa.numSala='"+numSala+"' and sa.cines=(select cin.idCine from Cines cin where cin.nombre='"+nombreCine+"'))").iterate();
 
 		ArrayList<Integer>filas1 = new ArrayList<>();
 		
@@ -191,8 +191,8 @@ public class SecondActivity {
 		session.beginTransaction();
 		
 		//Hacer una consulta
-		//Iterator<?> iter2 = session.createQuery("select p.hora, p.fecha from Proyeccion p, Peliculas pe where p.peliculas = pe.idPelicula and pe.nombrePelicula = '"+pelicula+"' GROUP BY p.hora").iterate();
-		Iterator<?> iter = session.createQuery("select p.fecha from Proyeccion p, Peliculas pe where p.peliculas = pe.idPelicula and pe.nombrePelicula = '"+pelicula+"'").iterate();
+		//Iterator<?> iter2 = session.createQuery("select p.hora, p.fecha from Proyeccion p, Peliculas pe where p.peliculas = pe.idPelicula and pe.nombrePelicula = '"+pelicula+"' GROUP BY p.hora, p.fecha ORDER BY p.fecha asc").iterate();
+		Iterator<?> iter = session.createQuery("select p.fecha from Proyeccion p, Peliculas pe where p.peliculas = pe.idPelicula and pe.nombrePelicula = '"+pelicula+"' GROUP BY p.hora, p.fecha ORDER BY p.fecha asc").iterate();
 		Iterator<?> iter2 = session.createQuery("select p.hora from Proyeccion p, Peliculas pe where p.peliculas = pe.idPelicula and pe.nombrePelicula = '"+pelicula+"'").iterate();
 		
 		ArrayList<String>listaFecha = new ArrayList<>();

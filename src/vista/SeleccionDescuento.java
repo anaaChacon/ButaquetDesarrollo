@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+import controlador.Discounts;
 import controlador.SecondActivity;
 
 import java.awt.Color;
@@ -40,13 +41,16 @@ public class SeleccionDescuento extends JFrame implements ActionListener, ItemLi
 
 	private JPanel contentPane;
 	private JTextField textField;
-	private JButton button, btnPasoAtrs;
+	private JButton button, btnPasoAtrs, btnSacarCuenta;
 
-	private JComboBox<Integer> comboBox_1, comboBox_2;
+	private JComboBox<Integer> comboBox_1, comboBox_2, comboBox;
 	private int cantidadSiguiente;
 	public static JLabel label_9;
-
+	private int numEntradas;
+	private int carnetJove = 0, desempleado = 0, jubilado = 0;
+	public static Double variableDescuentos = 0.0, precioConDescuento = 0.0, variablePrecioEntrada, precioConIva = 0.0, importeTotal = 0.0;
 	private int descontar;
+	private JLabel etiquetaDescuentos, etiquetaDescuentoTotal, etiquetaIva, etiquetaImporteTotal;
 	
 
 	Border emptyBorder = BorderFactory.createEmptyBorder();
@@ -72,6 +76,7 @@ public class SeleccionDescuento extends JFrame implements ActionListener, ItemLi
 	 * Create the frame.
 	 */
 	public SeleccionDescuento() {
+		super("BUTAQUET");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1280, 720);
 		contentPane = new JPanel();
@@ -117,7 +122,7 @@ public class SeleccionDescuento extends JFrame implements ActionListener, ItemLi
 		lblDescuentoPensionista.setBounds(0, 255, 244, 39);
 		panel_1.add(lblDescuentoPensionista);
 		
-		JComboBox<Integer> comboBox = new JComboBox<>();
+		comboBox = new JComboBox<>();
 		comboBox.setFont(new Font("Bebas Neue", Font.PLAIN, 27));
 		comboBox.setBackground(Color.WHITE);
 		comboBox.setBounds(254, 105, 101, 36);
@@ -164,14 +169,12 @@ public class SeleccionDescuento extends JFrame implements ActionListener, ItemLi
 		comboBox_1.setBounds(254, 179, 101, 36);
 
 		comboBox_1.setSelectedItem(null);
-		comboBox_1.addItemListener(new ItemListener(){
+		/*comboBox_1.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent e){
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 				
 					int cantidadSeleccionada = Integer.parseInt(comboBox_1.getSelectedItem().toString());
-					
 					int cantidadSiguiente2 = cantidadSiguiente - cantidadSeleccionada;
-					
 					ArrayList<Integer>listaDescuento = new ArrayList<>();
 					
 					for(int i = 0; i < cantidadSiguiente2+1; i++){
@@ -185,7 +188,7 @@ public class SeleccionDescuento extends JFrame implements ActionListener, ItemLi
 					
 				}	
 			}		
-		});
+		});*/
 
 		
 		comboBox_1.addItemListener(new ItemListener(){
@@ -226,14 +229,17 @@ public class SeleccionDescuento extends JFrame implements ActionListener, ItemLi
 		textField.setColumns(10);
 		textField.setBackground(Color.WHITE);
 		textField.setBounds(254, 30, 48, 36);
-		textField.setText(SeleccionPrincipal.textField.getText().toString());
+		//almacenamos en una variable de tipo entero el numero de butacas/entradas
+		numEntradas = Integer.parseInt(SeleccionPrincipal.textField.getText().toString());
+		textField.setText(String.valueOf(numEntradas));
 		panel_1.add(textField);
 		
 		button = new JButton("Siguiente Paso\r\n");
+		button.setEnabled(false);
 		button.setForeground(Color.WHITE);
 		button.setFont(new Font("Bebas Neue", Font.PLAIN, 46));
 		button.setBackground(new Color(0, 102, 255));
-		button.setBounds(548, 382, 284, 56);
+		button.setBounds(863, 382, 284, 56);
 		button.addActionListener(this);
 		button.setBorder(emptyBorder);
 		button.setFocusable(false);
@@ -250,7 +256,7 @@ public class SeleccionDescuento extends JFrame implements ActionListener, ItemLi
 		btnPasoAtrs.setForeground(Color.WHITE);
 		btnPasoAtrs.setFont(new Font("Bebas Neue", Font.PLAIN, 46));
 		btnPasoAtrs.setBackground(new Color(0, 102, 255));
-		btnPasoAtrs.setBounds(224, 382, 284, 56);
+		btnPasoAtrs.setBounds(194, 382, 284, 56);
 		btnPasoAtrs.addActionListener(this);
 		btnPasoAtrs.setBorder(emptyBorder);
 		btnPasoAtrs.setFocusable(false);
@@ -284,7 +290,10 @@ public class SeleccionDescuento extends JFrame implements ActionListener, ItemLi
 		lblIva.setBounds(673, 215, 244, 39);
 		panel_1.add(lblIva);
 		
-		JLabel label_1 = new JLabel("780\u20AC\r\n");
+		//Almacenamos en una variable de tipo Double el valor double que nos devuelve el método
+		variablePrecioEntrada =  Discounts.precioEntradas(numEntradas);
+		
+		JLabel label_1 = new JLabel((double)Math.round(variablePrecioEntrada*100)/100 + "\u20AC\r\n");
 		label_1.setBackground(new Color(211, 211, 211));
 		label_1.setHorizontalAlignment(SwingConstants.LEFT);
 		label_1.setForeground(SystemColor.controlHighlight);
@@ -292,26 +301,33 @@ public class SeleccionDescuento extends JFrame implements ActionListener, ItemLi
 		label_1.setBounds(927, 75, 244, 39);
 		panel_1.add(label_1);
 		
-		JLabel label_2 = new JLabel("70\u20AC\r\n");
-		label_2.setHorizontalAlignment(SwingConstants.LEFT);
-		label_2.setForeground(SystemColor.controlHighlight);
-		label_2.setFont(new Font("Bebas Neue", Font.PLAIN, 30));
-		label_2.setBounds(927, 112, 244, 39);
-		panel_1.add(label_2);
+		/*DESCUENTOS*/
+		etiquetaDescuentos = new JLabel((double)Math.round(variableDescuentos*100)/100 + "\u20AC\r\n");
 		
-		JLabel label_4 = new JLabel("710\u20AC");
-		label_4.setHorizontalAlignment(SwingConstants.LEFT);
-		label_4.setForeground(SystemColor.controlHighlight);
-		label_4.setFont(new Font("Bebas Neue", Font.PLAIN, 30));
-		label_4.setBounds(927, 149, 244, 39);
-		panel_1.add(label_4);
+		etiquetaDescuentos.setHorizontalAlignment(SwingConstants.LEFT);
+		etiquetaDescuentos.setForeground(SystemColor.controlHighlight);
+		etiquetaDescuentos.setFont(new Font("Bebas Neue", Font.PLAIN, 30));
+		etiquetaDescuentos.setBounds(927, 112, 244, 39);
+		panel_1.add(etiquetaDescuentos);
 		
-		JLabel label_5 = new JLabel("149,10\u20AC");
-		label_5.setHorizontalAlignment(SwingConstants.LEFT);
-		label_5.setForeground(SystemColor.controlHighlight);
-		label_5.setFont(new Font("Bebas Neue", Font.PLAIN, 30));
-		label_5.setBounds(927, 215, 244, 39);
-		panel_1.add(label_5);
+		/*APLICAR EL DESCUENTO A LAS ENTRADAS*/
+		
+		etiquetaDescuentoTotal = new JLabel((double)Math.round(precioConDescuento*100)/100 + "\u20AC");
+		etiquetaDescuentoTotal.setHorizontalAlignment(SwingConstants.LEFT);
+		etiquetaDescuentoTotal.setForeground(SystemColor.controlHighlight);
+		etiquetaDescuentoTotal.setFont(new Font("Bebas Neue", Font.PLAIN, 30));
+		etiquetaDescuentoTotal.setBounds(927, 149, 244, 39);
+		panel_1.add(etiquetaDescuentoTotal);
+		
+		/*Sacar el 21% del iva del importe con descuento*/
+		//precioConIva = (precioConDescuento * 21) / 100;
+		
+		etiquetaIva = new JLabel((double)Math.round(precioConIva*100)/100 + "\u20AC");
+		etiquetaIva.setHorizontalAlignment(SwingConstants.LEFT);
+		etiquetaIva.setForeground(SystemColor.controlHighlight);
+		etiquetaIva.setFont(new Font("Bebas Neue", Font.PLAIN, 30));
+		etiquetaIva.setBounds(927, 215, 244, 39);
+		panel_1.add(etiquetaIva);
 		
 		JLabel lblTotalAPagar = new JLabel("Total a pagar\r\n");
 		lblTotalAPagar.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -320,13 +336,26 @@ public class SeleccionDescuento extends JFrame implements ActionListener, ItemLi
 		lblTotalAPagar.setBounds(673, 286, 244, 39);
 		panel_1.add(lblTotalAPagar);
 		
-		JLabel label = new JLabel("859,10\u20AC");
-		label.setBackground(UIManager.getColor("Button.light"));
-		label.setHorizontalAlignment(SwingConstants.LEFT);
-		label.setForeground(SystemColor.controlHighlight);
-		label.setFont(new Font("Bebas Neue", Font.PLAIN, 48));
-		label.setBounds(927, 286, 244, 39);
-		panel_1.add(label);
+		/*SACAR EL IMPORTE TOTAL*/
+		//importeTotal = precioConDescuento + precioConIva;
+				
+		etiquetaImporteTotal = new JLabel((double)Math.round(importeTotal*100)/100 + "\u20AC");
+		etiquetaImporteTotal.setBackground(UIManager.getColor("Button.light"));
+		etiquetaImporteTotal.setHorizontalAlignment(SwingConstants.LEFT);
+		etiquetaImporteTotal.setForeground(SystemColor.controlHighlight);
+		etiquetaImporteTotal.setFont(new Font("Bebas Neue", Font.PLAIN, 48));
+		etiquetaImporteTotal.setBounds(927, 286, 244, 39);
+		panel_1.add(etiquetaImporteTotal);
+		
+		btnSacarCuenta = new JButton("SACAR CUENTA");
+		btnSacarCuenta.setForeground(Color.WHITE);
+		btnSacarCuenta.setFont(new Font("Bebas Neue", Font.PLAIN, 46));
+		btnSacarCuenta.setFocusable(false);
+		btnSacarCuenta.setBorder(emptyBorder);
+		btnSacarCuenta.setBackground(new Color(0, 102, 255));
+		btnSacarCuenta.setBounds(528, 382, 284, 56);
+		btnSacarCuenta.addActionListener(this);
+		panel_1.add(btnSacarCuenta);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(0, 0, 1274, 140);
@@ -401,11 +430,40 @@ public class SeleccionDescuento extends JFrame implements ActionListener, ItemLi
 		
 		if(e.getSource() == btnPasoAtrs){
 			
-			SeleccionPrincipal f = new SeleccionPrincipal();
+			carnetJove = 0;
+			desempleado = 0;
+			jubilado = 0;
+			variableDescuentos = 0.0;
+			precioConDescuento = 0.0;
+			precioConIva = 0.0;
+			importeTotal = 0.0;
 			
-			
+			SeleccionPrincipal f = new SeleccionPrincipal();	
 			f.setVisible(true);
 			setVisible(false);
+		}
+		
+		if(e.getSource() == btnSacarCuenta){
+			
+			carnetJove = Integer.parseInt(comboBox.getSelectedItem().toString());
+			desempleado = Integer.parseInt(comboBox_1.getSelectedItem().toString());
+			jubilado = Integer.parseInt(comboBox_2.getSelectedItem().toString());
+	
+			variableDescuentos = Discounts.descuentos(carnetJove, desempleado, jubilado);
+			etiquetaDescuentos.setText(variableDescuentos + "\u20AC\r\n");
+			
+			precioConDescuento = variablePrecioEntrada - variableDescuentos;
+			etiquetaDescuentoTotal.setText(precioConDescuento + "\u20AC");
+			/*Sacar el 21% del iva del importe con descuento*/
+			precioConIva = (precioConDescuento * 21) / 100;
+			etiquetaIva.setText(precioConIva + "\u20AC");
+			
+			/*SACAR EL IMPORTE TOTAL*/
+			importeTotal = precioConDescuento + precioConIva;
+			etiquetaImporteTotal.setText(importeTotal + "\u20AC");
+		
+			btnSacarCuenta.setEnabled(false);
+			button.setEnabled(true);
 		}
 	}
 

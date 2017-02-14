@@ -96,6 +96,7 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public SeleccionPrincipal() {
+		super("BUTAQUET");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1280, 720);
 		contentPane = new JPanel();
@@ -128,6 +129,7 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 		//Caso 1: obtenerhora y fecha y salida por pantalla con formato:
 		DateFormat hourdateFormat = new SimpleDateFormat("EEEEEEEEE dd/MM/yyyy  HH:mm");
         JLabel lblLunes = new JLabel(hourdateFormat.format(date).toString());
+                
         
 		lblLunes.setForeground(Color.LIGHT_GRAY);
 		lblLunes.setFont(new Font("Bebas Neue", Font.PLAIN, 25));
@@ -318,7 +320,7 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 					int salita = Integer.parseInt(numSala);
 					
 					ArrayList<Integer> listaSala = new ArrayList<>();
-					listaSala.addAll(SecondActivity.dimensionSala(salita));
+					listaSala.addAll(SecondActivity.dimensionSala(salita, nombreCine));
 					System.out.println(listaSala);
 					
 					
@@ -548,7 +550,7 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 				misButacas.setLayout(new GridLayout(fila,columna));
 				//pintarButacas.revalidate();
 				misButacas.revalidate();
-				
+				misButacas.repaint();
 				btnNewButton.setEnabled(false);
 				comboBox.setEnabled(false);
 				comboBox_1.setEnabled(false);
@@ -603,7 +605,7 @@ public class SeleccionPrincipal extends JFrame implements ActionListener {
 			comboBox_2.removeAllItems();
 			comboBox.setEnabled(true);
 			misButacas.revalidate();
-			
+			misButacas.repaint();
 			btnNewButton.setEnabled(true);
 			btnNuevo.setEnabled(false);
 		
